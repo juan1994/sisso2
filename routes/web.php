@@ -29,5 +29,8 @@ Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
 Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto-p');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
-Route::get('/evaluation-cal', 'EvaluationController@getCal')->name('evaluacion-calificacion');
+
+Route::get('/evaluation-cal', 'EvaluationItemController@get')->name('evaluacion-calificacion');
+Route::post('/evaluation-cal', 'EvaluationItemController@operation')->name('evaluacion-calificacion-p');
+
 Route::get('/reports', 'ReportController@get')->name('reporte');
