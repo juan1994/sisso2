@@ -1,45 +1,56 @@
 @extends('layout-default')
 @section('content')
-<h3>Lista de proyectos</h3>
-<hr>
-<div class="container">
-<div class="row">
-<div class="col-sm-12">
-    <table class="table table-striped">
-    <thead>
-        <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        </tr>
-        <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        </tr>
-        <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        </tr>
+
+  
+<div class="table-responsive">
+  
+  
+    <table class="table table-striped table-white">
+
+  
+  <thead>
+    <tr>
+      <th scope="col">Registro</th> 
+      <th scope="col">Id Proyecto</th>
+      <th scope="col">Nombre Del Proyecto</th>
+      <th scope="col">Fecha De Registro</th>
+      <th scope="col">Fecha De Inicio</th>
+      <th scope="col">Fecha De Finalizacion</th>
+      <th scope="col">Presupuesto</th>
+      <th scope="col">Poblacion Beneficiada</th>
+      <th scope="col">Nombre Del responsable</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">Objetivo General</th>
+      <th scope="col">Tipo de modalidad</th>
+      <th scope="col">Estado Del Proyecto</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($proyecto as $row)
+    <tr>
+      <th scope="row">1</th>
+      
+      <td> {{ $row->idproyecto }} </td>
+      <td> @php echo $row->nombreProyecto; @endphp </td>
+      <td> @php echo $row->fechaRegistro; @endphp </td>
+      <td> @php echo $row->fechaInicio; @endphp </td>
+      <td> @php echo $row->fechaFinalizacion; @endphp </td>
+      <td> @php echo $row->presuesto; @endphp </td>
+      <td> @php echo $row->problacionBeneficiada; @endphp </td>
+      <td> @php echo $row->nombreResponsable; @endphp </td>
+      <td> @php echo $row->descripcion; @endphp </td>
+      <td> @php echo $row->objetivoGeneral; @endphp </td>
+      <td> @php echo $row->tipoModalidad_idtipoModalidad; @endphp </td>
+      <td> @php echo $row->EstadoProyecto; @endphp </td>
+      </tr>
+    @endforeach
     </tbody>
-    </table>
-</div>
-</div>
-</div>
-<hr>
-<a class="nav-link" href="{{ route('crear-proyecto') }}">
-    <span class="nav-link-text">Crear Proyecto</span>
-</a>
+</table>
+  
+
+
+ 
+
+
 @stop

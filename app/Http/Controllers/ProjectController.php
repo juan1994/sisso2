@@ -25,9 +25,9 @@ class ProjectController extends Controller
      */
     public function getList()
     {
-        $results = DB::select('select * from usuario where codigo = ?', array(request('name')));
-        var_dump($results);
-        return view('proyecto-listar')->with('status', 'C');
+        $proyecto = DB::select('select * from `proyecto` where idproyecto = ?',[1]);
+        //var_dump($proyecto);
+        return view('proyecto-listar')->with('proyecto', $proyecto);
     }
     /**
      * Mostrar formulario de creación
