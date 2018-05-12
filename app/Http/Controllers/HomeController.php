@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\SessionService;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,8 @@ class HomeController extends Controller
      */
     public function get()
     {
-        return view('index');
+        $session = new SessionService();
+        return view('index')->with('session', $session->getSession());
     }
     public function index()
     {

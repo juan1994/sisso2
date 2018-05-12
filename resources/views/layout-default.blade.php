@@ -68,8 +68,13 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+        @if($session->status === 0)
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Iniciar Sesión</a>
+        @else
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Cerrar Sesión</a>
+        @endif
         </li>
       </ul>
     </div>
