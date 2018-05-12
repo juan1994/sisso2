@@ -23,6 +23,18 @@ class UserController extends Controller
 
     public function get()
     {
-        return view('usuario-registrar')->with('status', 'C');
+
+            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario`');
+       return view('usuario-listar')->with('usuario', $usuario); 
+        
+    }
+
+    public function detailUser()
+    {
+       
+            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario`');
+       return view('usuario-detalle')->with('usuario', $usuario); 
     }
 }

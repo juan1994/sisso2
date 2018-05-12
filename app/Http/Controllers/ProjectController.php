@@ -25,9 +25,16 @@ class ProjectController extends Controller
      */
     public function getList()
     {
-        $proyecto = DB::select('select * from `proyecto` where idproyecto = ?',[1]);
+        $proyecto = DB::select('select  @rownum:=@rownum+1 AS rownum, `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
         //var_dump($proyecto);
         return view('proyecto-listar')->with('proyecto', $proyecto);
+    }
+
+    public function detailProyect()
+    {
+        $proyecto = DB::select('select  `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
+        //var_dump($proyecto);
+        return view('proyecto-detalle')->with('proyecto', $proyecto);
     }
     /**
      * Mostrar formulario de creación
@@ -61,4 +68,5 @@ class ProjectController extends Controller
     {
 
     }
+    
 }

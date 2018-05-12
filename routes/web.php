@@ -23,10 +23,13 @@ Route::post('/help', 'HelpController@create')->middleware('auth');
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
+Route::get('/detail-user', 'UserController@detailUser')->name('detalle-usuario');
 
 Route::get('/projects', 'ProjectController@getList')->name('proyecto');
 Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
 Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto-p');
+
+Route::get('/detail-project', 'ProjectController@detailProyect')->name('detalle-proyecto');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
 Route::post('/evaluations', 'EvaluationController@operation')->name('evaluacion-p');
