@@ -33,9 +33,9 @@ class UserController extends Controller
 
     public function detailUser()
     {
-       
+        $userid = Input::get('userid', 0);
             $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
-                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario`');
+                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
        return view('usuario-detalle')->with('session', $this->session->getSession())->with('usuario', $usuario); 
     }
 }

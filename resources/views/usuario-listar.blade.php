@@ -21,7 +21,7 @@
     @foreach ($usuario as $row)
     
     <tr>
-      <td><a href="/detail-user? ={{ $row->codigo }}">Detalle</a></td>
+      <td><a href="/detail-user?userid={{ $row->codigo }}">Detalle</a></td>
       <td> @php echo $row->nombres; @endphp </td>
       <td> @php echo $row->apellidos; @endphp </td>
       <td> 
@@ -38,11 +38,4 @@
     @endforeach
     </tbody>
 </table>
-  
-
-
- 
-
-
-
 @stop
