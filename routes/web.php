@@ -13,9 +13,13 @@
 use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'HomeController@get')->name('home');
-
-Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home-test');
+/** Login */
+Route::get('/login', 'AuthController@getLogin')->name('login');
+Route::post('/login', 'AuthController@login')->name('login-p');
+Route::get('/logout', 'AuthController@getLogout')->name('logout');
+Route::get('/register', 'AuthController@getRegister')->name('register');
+Route::post('/register', 'AuthController@createUser')->name('register-p');
 
 /** TEST */
 Route::get('/help', 'HelpController@get')->middleware('auth');

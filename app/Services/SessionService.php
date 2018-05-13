@@ -14,12 +14,27 @@ class SessionService
     {
         return true;
     }
-
     
     public function getSession()
     {
-        $user = new UserSession();
-        $user->status = 2;
+        $user = session('user_session');
+        var_dump($user);
+        if(is_null($user)){
+            $user = new UserSession();
+        }
         return $user;
+    }
+    public function createSession($username)
+    {
+        $user = new UserSession();
+        $user->name = $username;
+        $user->status = 1;
+        $user->rol = 'ADMIN';
+        session(['user_session' => $user]);
+    }
+    public function removeSession($request)
+    {
+        //$request->session()->forget('key');
+        $request->session()->flush();
     }
 }

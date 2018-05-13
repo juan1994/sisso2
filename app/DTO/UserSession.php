@@ -8,7 +8,7 @@ class UserSession
      * An indentifier
      * @var string 
      */
-    private $name;
+    public $name;
     /**
      * An indentifier
      * @var string

@@ -7,6 +7,7 @@ use App\Services\SessionService;
 
 class HomeController extends Controller
 {
+    private $session;
     /**
      * Create a new controller instance.
      *
@@ -14,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->session = new SessionService();
     }
 
     /**
@@ -22,13 +23,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get()
+    public function get(Request $request)
     {
-        $session = new SessionService();
-        return view('index')->with('session', $session->getSession());
+        return view('index')->with('session', $this->session->getSession());
     }
     public function index()
     {
-        return view('home');
+        return view('home')->with('session', $this->session->getSession());
     }
 }

@@ -5,27 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use App\Services\SessionService;
 use DB;
 use App\Quotation;
 
 class EvaluationController extends Controller
 {
-
-      /**
+    private $session;
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->session = new SessionService();
     }
 
     public function get(Request $request)
     {
         session(['user_name' => '625353']);
         $idproject = Input::get('project', 0);
-        return view('evaluacion-registrar')->with('status', 'C')
+        return view('evaluacion-registrar')->with('session', $this->session->getSession())->with('status', 'C')
         ->with('idproject', $idproject)->with('operation', 'I');
     }
     public function operation(Request $request)
@@ -137,7 +138,7 @@ class EvaluationController extends Controller
             ['valor' => Input::get('campo77', 0), 'posX' => 7, 'posY' => 7, 
             'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
         ]);
-        return view('evaluacion-registrar')->with('status', 'C')
+        return view('evaluacion-registrar')->with('session', $this->session->getSession())->with('status', 'C')
         ->with('idproject', $idproject)->with('operation', 'I');;
     }
 }

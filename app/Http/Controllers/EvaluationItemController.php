@@ -5,20 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use App\Services\SessionService;
 use DB;
 use App\Quotation;
 use Session;
 
 class EvaluationItemController extends Controller
 {
-      /**
+    private $session;
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->session = new SessionService();
     }
 
     private function getCalificaciones(){
@@ -31,12 +33,7 @@ class EvaluationItemController extends Controller
     }
     public function get(Request $request)
     {
-        //$value = session('key');
-        // Store a piece of data in the session...
-        session(['user_name' => '625314']);
-        //$data = $request->session()->all();
-        //$request->session()->forget('key');
-        //$request->session()->flush();
+        //$data = $request->session()->all();   
         //var_dump($data);
         $operation = 'I';
         $status = 1;
@@ -60,7 +57,7 @@ class EvaluationItemController extends Controller
             }
         }
         
-        return view('evaluacion-reg-calificacion')
+        return view('evaluacion-reg-calificacion')->with('session', $this->session->getSession())
         ->with('operation', $operation)->with('calificaciones', self::getCalificaciones())
         ->with('values', $results)->with('status', $status)
         ->with('weight', $weight)->with('idproject', $idproject);
@@ -144,7 +141,7 @@ class EvaluationItemController extends Controller
             self::calculateValue($idproject);
         }
         //return redirect()->route('evaluacion-calificacion', ['project' => 1001,'res_val' => 0]);
-        return view('evaluacion-reg-calificacion')
+        return view('evaluacion-reg-calificacion')->with('session', $this->session->getSession())
         ->with('operation', 'I')->with('calificaciones', self::getCalificaciones())
         ->with('values', array())->with('status', 0)
         ->with('weight', array())->with('idproject', $idproject);

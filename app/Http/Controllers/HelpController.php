@@ -10,7 +10,7 @@ use App\Quotation;
 
 class HelpController extends Controller
 {
-
+    private $session;
       /**
      * Create a new controller instance.
      *
