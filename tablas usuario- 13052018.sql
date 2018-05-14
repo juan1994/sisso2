@@ -24,3 +24,9 @@ CHANGE COLUMN `status` `status` INT(11) NOT NULL ;
   `created` DATETIME(6) NOT NULL,
   `used` DATETIME(6) NOT NULL,
   PRIMARY KEY (`id`));
+
+
+  ALTER TABLE `mydb`.`anexo` 
+ADD COLUMN `created` DATETIME(6) NOT NULL AFTER `proyecto_idprotecto`;
+ALTER TABLE `mydb`.`anexo` 
+ADD COLUMN `user` INT NOT NULL AFTER `created`;

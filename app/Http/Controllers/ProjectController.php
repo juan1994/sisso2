@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Services\SessionService;
 use DB;
+use Storage;
+use File;
 use App\Quotation;
 
 class ProjectController extends Controller
@@ -31,7 +33,7 @@ class ProjectController extends Controller
         return view('proyecto-listar')->with('session', $this->session->getSession())->with('proyecto', $proyecto);
     }
 
-    public function detailProyect()
+    public function getDetailProject()
     {
         $proyecto = DB::select('select  `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
         //var_dump($proyecto);
@@ -69,5 +71,35 @@ class ProjectController extends Controller
     {
 
     }
-    
+    /**
+     * Operaciones - Archivos
+     */
+    public function getFile(Request $request)
+    {
+        $pathfile = Input::get('pathfile', '');
+        return Storage::download($pathfile);
+    }
+    public function createFile(Request $request)
+    {
+        $nombre_archivo = Input::get('myFile', '');
+        $nombre = Input::get('nombre', '');
+        $descripcion = Input::get('descripcion', '');
+        $idproject = Input::get('idproject', '');
+        $date_string = date("Y/m/d h:i");
+        // validar permisos
+
+        //crear archivo
+        if ($request->file('myFile') == null) {
+            $path = "No hay archivo";
+        }else{
+           $path = $request->file('myFile')->store('Proyectos/' . $nombre_archivo);  
+            //$size = Storage::size($path);
+            // crear registro de consulta
+            DB::table('anexo')->insert(
+                ['NombreAnexo' => $nombre, 'Ruta' => $path, 
+                'Descripcion' => $descripcion, 'proyecto_idprotecto' => $idproject, 
+                'created' => $date_string, 'user'=> 625353]
+            );
+        }
+    }
 }

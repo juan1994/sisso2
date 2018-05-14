@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\SessionService;
 use DB;
 use Storage;
+use File;
 use App\Quotation;
 
 class HelpController extends Controller
@@ -23,22 +24,37 @@ class HelpController extends Controller
         $this->session = new SessionService();
     }
 
-    public function get()
+    public function get(Request $request)
     {
-        //return Storage::download('test.jpg');
-        return view('help')->with('session', $this->session->getSession())->with('status', 'C');
+        return view('help')->with('session', $this->session->getSession())
+        ->with('path', '');
     }
-    public function create()
+    public function create(Request $request)
     {
-        $errors = array();
-        //$results = DB::select('select * from usuario where codigo = ?', array(request('name')));
-        $results = DB::select('select * from usuario');
-        
-        var_dump($results);
-        if (count($results) == 0){
-            array_push($errors, 'El codigo es invalido');
-            array_push($errors, 'Error 2');
+        // debug for object
+        //$input = Input::all();
+        //dd($input);
+        $nombre_archivo = Input::get('myFile', '');
+        $nombre = Input::get('nombre', '');
+        $descripcion = Input::get('descripcion', '');
+        $idproject = Input::get('idproject', '');
+        $date_string = date("Y/m/d h:i");
+        // validar permisos
+
+        //crear archivo
+        if ($request->file('myFile') == null) {
+            $path = "No hay archivo";
+        }else{
+           $path = $request->file('myFile')->store('Proyectos/' . $nombre_archivo);  
+            //$size = Storage::size($path);
+            // crear registro de consulta
+            DB::table('anexo')->insert(
+                ['NombreAnexo' => $nombre, 'Ruta' => $path, 
+                'Descripcion' => $descripcion, 'proyecto_idprotecto' => $idproject, 
+                'created' => $date_string, 'user'=> 62535]
+            );
         }
-        return view('help')->with('status', 'S')->with('errors', $errors)->with('res', $results)->with('data', request()->all());
+        return view('help')->with('session', $this->session->getSession())
+        ->with('path',$path);
     }
 }

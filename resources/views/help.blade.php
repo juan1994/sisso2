@@ -1,41 +1,33 @@
-@extends('layout')
-
+@extends('layout-default')
 @section('content')
-    @if ($status === 'C' || count($errors) > 0 )
     <div>
-        <img src="/not_allowed.png" width="64px"/>
-        <h2>Formulario</h2>
-        <form method="POST" action"/help">
+        <h2>Agregar Anexo</h2>
+        <form method="POST" enctype="multipart/form-data" action"/help">
             {{ csrf_field() }}
-            <input type="text" minLength="5" value="@if (isset($data)) {{ $data['name']}}@endif" required name="name"/>
+            <span>{{$path}}</span>
             <br>
-            <button type="submit">submit</button>
+            <div class="form-group">
+                <label for="m_photo" class="col-md-4 control-label">Nombre Anexo</label>
+                <div class="col-md-6">
+                    <input type="text" name="nombre" class="form-control" value="" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="m_photo" class="col-md-4 control-label">Detalle</label>
+                <div class="col-md-6">
+                    <textarea rows="4" cols="50" class="form-control" name="descripcion" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                <input id="m_photo" type="file" class="form-control-file space" name="myFile" required>
+                </div>
+            </div>
+            <input type="hidden" name="idproject" value=""/>
+            <div class="col-md-12">
+                <button type="submit">Agregar</button>
+            </div>
         </form>
     </div>
-    @endif
-    @if ($status === 'S')
-        <div>
-            @if (count($errors) > 0)
-                <h3>Registros con Errores</h3>
-            @else
-                <h3>Registros guardados</h3>
-            @endif
-            <hr>
-            @if (count($errors) > 0)
-                <ul>
-                @foreach($errors as $d)
-                    <li>{{ $d }}</li>
-                @endforeach
-                </ul>
-            @endif
-            @if (count($res) > 0)
-                <ul>
-                @foreach($res as $r)
-                    <li>{{ $r['codigo'][0] }}</li>
-                @endforeach
-                </ul>
-            @endif
-            <a href="/help">Back</a>
-        </div>
-    @endif
+    
 @stop
