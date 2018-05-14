@@ -187,7 +187,9 @@
 </div>
 @if ($status == 1)
 <script>
-$('#exampleModal').modal('show')
+window.onload = function() {
+    $('#exampleModal').modal('show')
+};
 </script>
 @endif
 @stop

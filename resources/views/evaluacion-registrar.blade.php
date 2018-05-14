@@ -330,7 +330,6 @@ function onChange(){
     $('#campo74').val(round($('#campo47').val()));
     $('#campo75').val(round($('#campo57').val()));
     $('#campo76').val(round($('#campo67').val()));
-
 }
 function round(value){
     if(!isNaN(value)){
@@ -338,6 +337,8 @@ function round(value){
     }
     return '';
 }
-setTimeout(onChange(), 3000);
+window.onload = function() {
+    setTimeout(onChange(), 3000);
+};
 </script>
 @stop

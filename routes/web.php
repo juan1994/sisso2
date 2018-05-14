@@ -13,7 +13,6 @@
 use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'HomeController@get')->name('home');
-Route::get('/home', 'HomeController@index')->name('home-test');
 /** Login */
 Route::get('/login', 'AuthController@getLogin')->name('login');
 Route::post('/login', 'AuthController@login')->name('login-p');
