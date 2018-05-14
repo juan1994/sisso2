@@ -70,12 +70,18 @@
         <li class="nav-item">
         @if($session->status === 0)
           <a class="nav-link" href="{{route('login')}}">
-            <i class="fa fa-fw fa-sign-out"></i>Iniciar Sesión</a>
+            <i class="fa fa-fw fa-sign-in"></i>Iniciar Sesión</a>
         @else
           <a class="nav-link" href="{{route('logout')}}">
             <i class="fa fa-fw fa-sign-out"></i>Cerrar Sesión</a>
         @endif
         </li>
+        @if($session->status === 0)
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('registro')}}">
+            <i class="fa fa-fw fa-user-plus"></i>Registro</a>
+          </li>
+        @endif
       </ul>
     </div>
   </nav>

@@ -17,8 +17,8 @@ Route::get('/', 'HomeController@get')->name('home');
 Route::get('/login', 'AuthController@getLogin')->name('login');
 Route::post('/login', 'AuthController@login')->name('login-p');
 Route::get('/logout', 'AuthController@getLogout')->name('logout');
-Route::get('/register', 'AuthController@getRegister')->name('register');
-Route::post('/register', 'AuthController@createUser')->name('register-p');
+Route::get('/register', 'AuthController@getRegister')->name('registro');
+Route::post('/register', 'AuthController@createUser')->name('registro-p');
 
 /** TEST */
 Route::get('/help', 'HelpController@get')->middleware('auth');
