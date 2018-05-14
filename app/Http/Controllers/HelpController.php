@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use App\Services\SessionService;
 use DB;
+use Storage;
 use App\Quotation;
 
 class HelpController extends Controller
@@ -18,12 +20,13 @@ class HelpController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->session = new SessionService();
     }
 
     public function get()
     {
-        return view('help')->with('status', 'C');
+        //return Storage::download('test.jpg');
+        return view('help')->with('session', $this->session->getSession())->with('status', 'C');
     }
     public function create()
     {

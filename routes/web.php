@@ -21,8 +21,8 @@ Route::get('/register', 'AuthController@getRegister')->name('registro');
 Route::post('/register', 'AuthController@createUser')->name('registro-p');
 
 /** TEST */
-Route::get('/help', 'HelpController@get')->middleware('auth');
-Route::post('/help', 'HelpController@create')->middleware('auth');
+Route::get('/help', 'HelpController@get');
+Route::post('/help', 'HelpController@create');
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
