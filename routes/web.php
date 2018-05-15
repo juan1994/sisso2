@@ -42,11 +42,9 @@ Route::get('/evaluation-cal', 'EvaluationItemController@get')->name('evaluacion-
 Route::post('/evaluation-cal', 'EvaluationItemController@operation')->name('evaluacion-calificacion-p');
 
 Route::get('/reports', 'ReportController@get')->name('reporte');
-<<<<<<< HEAD
-Route::get('/requests', 'AuthController@getusertemp')->name('peticion');
-=======
 
-/**Files */
+Route::get('/requests', 'AuthController@getusertemp')->name('peticion');
+
 Route::get('/attached', 'ProjectController@getFile')->name('archivo-mostrar');
 Route::post('/detail-project', 'ProjectController@createFile')->name('archivo-crear');
->>>>>>> c106ac0db6eff468442019e01e925a8e1b013882
+
