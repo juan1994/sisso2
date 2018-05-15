@@ -24,7 +24,7 @@
     @foreach ($proyecto as $row)
     
     <tr>
-      <td><a href="/detail-project? ={{ $row->idproyecto }}">Detalle</a></td>
+      <td><a href="/detail-project?proyectoid={{ $row->idproyecto }}">Detalle</a></td>
       <th scope="row"> {{ $row->idproyecto }} </th>
       <td> @php echo $row->nombreProyecto; @endphp </td>
       <td> @php echo $row->fechaInicio; @endphp </td>

@@ -33,12 +33,25 @@ class ProjectController extends Controller
         return view('proyecto-listar')->with('session', $this->session->getSession())->with('proyecto', $proyecto);
     }
 
+
     public function getDetailProject()
     {
-        $proyecto = DB::select('select  `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
-        //var_dump($proyecto);
-        return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto);
+        $proyectoid = Input::get('proyectoid', 0);
+            $proyecto = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
+            
+        $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `NombreAnexo`,`Descripcion` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
+
+        $proyectoEvaluacion = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idprotecto`=?', array($proyectoEvaluacion));
+
+        
+       return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
+       
     }
+
+  
     /**
      * Mostrar formulario de creación
      */
