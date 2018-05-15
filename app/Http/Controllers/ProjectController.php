@@ -116,14 +116,8 @@ class ProjectController extends Controller
         //crear archivo
         if ($request->file('myFile') == null) {
             $path = "No hay archivo";
-
-        } else {
-            $path = $request->file('myFile')->store('Proyectos/' . $nombre_archivo);
-            //$size = Storage::size($path);
-
         }else{
            $path = $request->file('myFile')->store('Proyectos/' . strval($idproject));
-
             // crear registro de consulta
             DB::table('anexo')->insert(
                 ['NombreAnexo' => $nombre, 'Ruta'                     => $path,
