@@ -1,6 +1,6 @@
 @extends('layout-default')
 @section('content')
-<<<<<<< HEAD
+
 <div class="table-responsive">
     <table class="table table-striped table-white">
         <thead>
@@ -48,7 +48,7 @@
                 </td>
                 <td>
                     @if ($row->EstadoProyecto ===  '0')
-=======
+
 <div class="table-responsive">  
  <table class="table table-striped table-white">
 	<thead>
@@ -72,12 +72,12 @@
       <td> @php echo $row->tipoModalidad_idtipoModalidad; @endphp </td>
       <td> 
         @if ($row->EstadoProyecto ===  '0')
->>>>>>> c106ac0db6eff468442019e01e925a8e1b013882
+
           Activo
         @elseif ($row->EstadoProyecto === '1')
             Inactivo
         @endif
-<<<<<<< HEAD
+
                 </td>
             </tr>
             @endforeach
@@ -155,7 +155,7 @@
     </table>
     @stop
 </div>
-=======
+
       </td>
       </tr>
     @endforeach
@@ -246,4 +246,4 @@ window.onload = function() {
 };
 </script>
 @stop
->>>>>>> c106ac0db6eff468442019e01e925a8e1b013882
+
