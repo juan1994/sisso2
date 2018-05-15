@@ -33,6 +33,7 @@ Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
 Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto-p');
 
 Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detalle-proyecto');
+Route::get('/register-project', 'ProjectController@getproyectregister')->name('proyecto-registrar');
 
 
 
@@ -43,3 +44,4 @@ Route::get('/evaluation-cal', 'EvaluationItemController@get')->name('evaluacion-
 Route::post('/evaluation-cal', 'EvaluationItemController@operation')->name('evaluacion-calificacion-p');
 
 Route::get('/reports', 'ReportController@get')->name('reporte');
+Route::get('/requests', 'AuthController@getusertemp')->name('peticion');

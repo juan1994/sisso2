@@ -95,4 +95,17 @@ class AuthController extends Controller
             return view('auth/register-ok')->with('session', $this->session->getSession());
         }
     }
+
+  
+
+    public function getusertemp()
+    {
+        $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum,
+               `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM `usuario_temporal ');
+
+        return view('usuario-solicitud')->with('session', $this->session->getSession())->with('usuarioTemporal', $usuarioTemporal);
+    }
+
+
+
 }

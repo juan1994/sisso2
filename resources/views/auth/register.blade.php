@@ -91,6 +91,33 @@
             </div>
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
+                    <label for="email">
+                        Celular
+                    </label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem">
+                                <i class="fa fa-at">
+                                </i>
+                            </div>
+                            <input autofocus="" minlength="10" maxlength="120" class="form-control" id="celular" name="celular" placeholder="3---------" value="@if (isset($input) && isset($input["celular"])) {{ $input["celular"]}}@endif" required type="number">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put e-mail validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
                     <label for="password">
                         Rol
                     </label>

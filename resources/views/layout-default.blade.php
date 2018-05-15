@@ -53,6 +53,12 @@
             <span class="nav-link-text">Reportes</span>
           </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="{{ route('peticion') }}">
+            <i class="far fa-flag"></i>
+            <span class="nav-link-text">Solicitud De Usuarios</span>
+          </a>
+        </li>
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
