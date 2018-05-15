@@ -2,19 +2,13 @@
 @section('content')
 
 <div class="table-responsive">
-  
-  
-   <table class="table table-striped table-white">
-
-  
+  <table class="table table-striped table-white">
   <thead>
     <tr>
       <th scope="col">Registro</th> 
       <th scope="col">Nombres</th>
       <th scope="col">Apellidos</th>
       <th scope="col">rol</th>
-      
-
     </tr>
   </thead>
   <tbody>

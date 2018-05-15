@@ -34,7 +34,9 @@ class AuthController extends Controller
     
     public function getRegister(Request $request)
     {
-        return view('auth/register')->with('session', $this->session->getSession());
+        $kinds = DB::select("select idTipo as id, nombreTipo as detalle  from tipo order by idTipo");
+        return view('auth/register')->with('session', $this->session->getSession())
+        ->with('kinds', $kinds);
     }
     public function login(Request $request)
     {
@@ -70,7 +72,27 @@ class AuthController extends Controller
     }
     public function createUser(Request $request)
     {
-        $password = Hash::make('secret');
-        return view('auth/register')->with('session', $this->session->getSession());
+        $kinds = DB::select("select idTipo as id, nombreTipo as detalle  from tipo order by idTipo");
+        $input = Input::all();
+        $password = Hash::make($input["contrasena"]);
+        $date_string = date("Y/m/d h:i");
+        $errors = array();
+        $count_user = DB::select("select count(*) as count from usuario where correo=?", array($input["correo"]));
+        if($count_user[0]->count > 0){
+            $errors["exist_user"] = "El usuario esta en uso, consulte con el administrador."; 
+            return view('auth/register')->with('session', $this->session->getSession())
+            ->with('kinds', $kinds)->with('errors', $errors)->with('input', $input);
+        }else{
+            DB::table('usuario_temporal')
+            ->where('correo', $input["correo"])
+            ->where('status', 1)
+            ->update(['status' => 0]);
+            DB::table('usuario_temporal')->insert(
+                ['correo' => $input["correo"], 'nombres' => $input["nombres"], 
+                'apellidos' => $input["apellidos"], 'tel' => '00000', 'codigo' => 6253530,
+                'password' => $password, 'tipo' => $input["rol"], 'created' => $date_string, 'status' => 1]
+            );
+            return view('auth/register-ok')->with('session', $this->session->getSession());
+        }
     }
 }

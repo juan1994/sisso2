@@ -18,12 +18,7 @@
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin.css" rel="stylesheet">
-  <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <link href="css/sb-admin.css" rel="stylesheet">  
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
@@ -67,18 +62,26 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-        <span class="nav-link" style="cursor: none;">{{$session->name}}</span>
-        </li>
+        @if(isset($session->name))
+          <li class="nav-item">
+            <span class="nav-link" style="cursor: none;">{{$session->name}}</span>
+          </li>
+        @endif
         <li class="nav-item">
         @if($session->status === 0)
           <a class="nav-link" href="{{route('login')}}">
-            <i class="fa fa-fw fa-sign-out"></i>Iniciar Sesión</a>
+            <i class="fa fa-fw fa-sign-in"></i>Iniciar Sesión</a>
         @else
           <a class="nav-link" href="{{route('logout')}}">
             <i class="fa fa-fw fa-sign-out"></i>Cerrar Sesión</a>
         @endif
         </li>
+        @if($session->status === 0)
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('registro')}}">
+            <i class="fa fa-fw fa-user-plus"></i>Registro</a>
+          </li>
+        @endif
       </ul>
     </div>
   </nav>
@@ -97,18 +100,13 @@
     </footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
-    </a>
-    <!--
-    // Page level plugin JavaScript
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-    // Custom scripts for this page
-    -->
+      <i class="fa fa-angle-up"></i></a>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
-    <!--<script src="js/sb-admin-datatables.min.js"></script>
-    <script src="js/sb-admin-charts.min.js"></script>-->
   </div>
 </body>
 

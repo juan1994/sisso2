@@ -13,17 +13,16 @@
 use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'HomeController@get')->name('home');
-Route::get('/home', 'HomeController@index')->name('home-test');
 /** Login */
 Route::get('/login', 'AuthController@getLogin')->name('login');
 Route::post('/login', 'AuthController@login')->name('login-p');
 Route::get('/logout', 'AuthController@getLogout')->name('logout');
-Route::get('/register', 'AuthController@getRegister')->name('register');
-Route::post('/register', 'AuthController@createUser')->name('register-p');
+Route::get('/register', 'AuthController@getRegister')->name('registro');
+Route::post('/register', 'AuthController@createUser')->name('registro-p');
 
 /** TEST */
-Route::get('/help', 'HelpController@get')->middleware('auth');
-Route::post('/help', 'HelpController@create')->middleware('auth');
+Route::get('/help', 'HelpController@get');
+Route::post('/help', 'HelpController@create');
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
@@ -33,7 +32,7 @@ Route::get('/projects', 'ProjectController@getList')->name('proyecto');
 Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
 Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto-p');
 
-Route::get('/detail-project', 'ProjectController@detailProyect')->name('detalle-proyecto');
+Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detalle-proyecto');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
 Route::post('/evaluations', 'EvaluationController@operation')->name('evaluacion-p');
