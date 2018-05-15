@@ -44,7 +44,7 @@ class ProjectController extends Controller
                 `NombreAnexo`,`Descripcion` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
 
         $proyectoEvaluacion = DB::select('select  @rownum:=@rownum+1 AS rownum, 
-                `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idprotecto`=?', array($proyectoEvaluacion));
+                `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
        return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
        
     }
