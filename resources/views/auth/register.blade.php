@@ -16,6 +16,29 @@
             </div>
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
+                    <label for="name">Codigo</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <input autofocus="" minlength="3" maxlength="60" class="form-control" id="codigo" name="codigo" placeholder="codigo" value="@if (isset($input) && isset($input["codigo"])) {{ $input["codigo"]}}@endif" required type="text">
+                            </input>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
                     <label for="name">Nombres</label>
                 </div>
                 <div class="col-md-6">
