@@ -25,11 +25,13 @@ class AuthController extends Controller
     {
         return view('auth/login')->with('session', $this->session->getSession())->with('errcount', 0);
     }
+
     public function getLogout(Request $request)
     {
         $this->session->removeSession($request);
         return redirect()->route('home');
     }
+    
     public function getRegister(Request $request)
     {
         return view('auth/register')->with('session', $this->session->getSession());
