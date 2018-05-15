@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Services\SessionService;
 use DB;
 use File;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Storage;
+
+use Redirect;
+use App\Quotation;
+
 
 class ProjectController extends Controller
 {
@@ -37,12 +42,14 @@ class ProjectController extends Controller
         $proyectoid = Input::get('proyectoid', 0);
         $proyecto   = DB::select('select  @rownum:=@rownum+1 AS rownum,
                 `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
+            
+        $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
 
-        $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum,
-                `NombreAnexo`,`Descripcion` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
 
         $proyectoEvaluacion = DB::select('select  @rownum:=@rownum+1 AS rownum,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
+
 
         return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
 
@@ -51,6 +58,10 @@ class ProjectController extends Controller
     public function getproyectregister()
     {
         return view('usuario-solicitud')->with('session', $this->session->getSession())->with('status', 'C');
+
+       return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
+       
+
     }
 
     /**
@@ -105,9 +116,14 @@ class ProjectController extends Controller
         //crear archivo
         if ($request->file('myFile') == null) {
             $path = "No hay archivo";
+
         } else {
             $path = $request->file('myFile')->store('Proyectos/' . $nombre_archivo);
             //$size = Storage::size($path);
+
+        }else{
+           $path = $request->file('myFile')->store('Proyectos/' . strval($idproject));
+
             // crear registro de consulta
             DB::table('anexo')->insert(
                 ['NombreAnexo' => $nombre, 'Ruta'                     => $path,
@@ -115,5 +131,6 @@ class ProjectController extends Controller
                     'created'      => $date_string, 'user'                => 625353]
             );
         }
+        return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
 }

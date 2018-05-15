@@ -23,7 +23,7 @@
                 <input id="m_photo" type="file" class="form-control-file space" name="myFile" required>
                 </div>
             </div>
-            <input type="hidden" name="idproject" value=""/>
+            <input type="hidden" name="idproject" value="1001"/>
             <div class="col-md-12">
                 <button type="submit">Agregar</button>
             </div>
