@@ -9,6 +9,7 @@ use App\Services\SessionService;
 use DB;
 use Storage;
 use File;
+use Redirect;
 use App\Quotation;
 
 class ProjectController extends Controller
@@ -41,7 +42,7 @@ class ProjectController extends Controller
                 `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
             
         $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum, 
-                `NombreAnexo`,`Descripcion` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
+                `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
 
         $proyectoEvaluacion = DB::select('select  @rownum:=@rownum+1 AS rownum, 
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
@@ -98,13 +99,12 @@ class ProjectController extends Controller
         $idproject = Input::get('idproject', '');
         $date_string = date("Y/m/d h:i");
         // validar permisos
-
+        var_dump('Proyectos/' . $nombre_archivo);
         //crear archivo
         if ($request->file('myFile') == null) {
             $path = "No hay archivo";
         }else{
-           $path = $request->file('myFile')->store('Proyectos/' . $nombre_archivo);  
-            //$size = Storage::size($path);
+           $path = $request->file('myFile')->store('Proyectos/' . strval($idproject));
             // crear registro de consulta
             DB::table('anexo')->insert(
                 ['NombreAnexo' => $nombre, 'Ruta' => $path, 
@@ -112,5 +112,6 @@ class ProjectController extends Controller
                 'created' => $date_string, 'user'=> 625353]
             );
         }
+        return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
 }

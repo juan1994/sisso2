@@ -34,8 +34,6 @@ Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto
 
 Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detalle-proyecto');
 
-
-
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
 Route::post('/evaluations', 'EvaluationController@operation')->name('evaluacion-p');
 
@@ -43,3 +41,7 @@ Route::get('/evaluation-cal', 'EvaluationItemController@get')->name('evaluacion-
 Route::post('/evaluation-cal', 'EvaluationItemController@operation')->name('evaluacion-calificacion-p');
 
 Route::get('/reports', 'ReportController@get')->name('reporte');
+
+/**Files */
+Route::get('/attached', 'ProjectController@getFile')->name('archivo-mostrar');
+Route::post('/detail-project', 'ProjectController@createFile')->name('archivo-crear');
