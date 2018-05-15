@@ -112,7 +112,7 @@ class ProjectController extends Controller
         $idproject      = Input::get('idproject', '');
         $date_string    = date("Y/m/d h:i");
         // validar permisos
-
+        //var_dump('Proyectos/' . $nombre_archivo);
         //crear archivo
         if ($request->file('myFile') == null) {
             $path = "No hay archivo";
