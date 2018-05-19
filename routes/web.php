@@ -44,6 +44,7 @@ Route::post('/evaluation-cal', 'EvaluationItemController@operation')->name('eval
 Route::get('/reports', 'ReportController@get')->name('reporte');
 
 Route::get('/requests', 'AuthController@getusertemp')->name('peticion');
+Route::post('/requests', 'AuthController@createUserTemp')->name('peticion-p');
 
 
 Route::get('/attached', 'ProjectController@getFile')->name('archivo-mostrar');
