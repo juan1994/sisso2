@@ -32,11 +32,10 @@
     @endforeach
   </tbody>
     </table>
-    <button class="btn btn-success" type="submit">
-        <i class="fa fa-user-plus">
-        </i>
-        Editar Datos
-    </button>
+@if(isset($session) && $session->status === 1)    
+    <button class="btn btn-success" type="button">
+        <i class="fa fa-user-plus"></i>Editar Datos</button>
+@endif    
     <table class="table table-striped table-white">
         <thead>
             <h1>
@@ -60,8 +59,10 @@
             @endforeach
         </tbody>
     </table>
+@if(isset($session) && $session->status === 1)
   <button class="btn btn-success" type="submit" onclick="showForm()">
     <i class="fa fa-user-plus"></i>Agregar Anexos</button>
+@endif    
 <div id="addfile" class="d-none">
         <h2>Agregar Anexo</h2>
         <form method="POST" enctype="multipart/form-data" action"/detail-project">
@@ -123,11 +124,12 @@
             @endforeach
         </tbody>
     </table>
-<button class="btn btn-success" type="submit">
-  <i class="fa fa-user-plus"></i>Editar Datos</button>
- 
-<button class="btn btn-success" type="submit">
-  <i class="fa fa-user-plus"></i>Agregar evaluacion</button>
+ @if(isset($session) && $session->status === 1)
+<button class="btn btn-success" type="button">
+  <i class="fa fa-user-plus"></i><a style="color: white;text-decoration: none;" href="/evaluations?project={{$proyecto[0]->idproyecto}}">Agregar Matriz</a></button>
+<button class="btn btn-success" type="button">
+  <i class="fa fa-user-plus"></i><a style="color: white;text-decoration: none;" href="/evaluation-cal?project={{$proyecto[0]->idproyecto}}">Agregar evaluación</a></button> 
+@endif
 <script>
   function showForm(){
     $('#addfile').removeClass('d-none');

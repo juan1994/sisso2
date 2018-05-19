@@ -18,18 +18,18 @@ class SessionService
     public function getSession()
     {
         $user = session('user_session');
-        var_dump($user);
+        //var_dump($user);
         if(is_null($user)){
             $user = new UserSession();
         }
         return $user;
     }
-    public function createSession($username)
+    public function createSession($username, $type)
     {
         $user = new UserSession();
         $user->name = $username;
         $user->status = 1;
-        $user->rol = 'ADMIN';
+        $user->rol = $type;
         session(['user_session' => $user]);
     }
     public function removeSession($request)
