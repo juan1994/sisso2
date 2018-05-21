@@ -57,9 +57,9 @@ class ProjectController extends Controller
 
     public function getproyectregister()
     {
-        return view('usuario-solicitud')->with('session', $this->session->getSession())->with('status', 'C');
+        return view('proyecto-registrar')->with('session', $this->session->getSession())->with('status', 'C');
 
-       return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
+       //return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
        
 
     }

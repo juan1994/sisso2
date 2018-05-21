@@ -61,7 +61,7 @@
             @endforeach
         </tbody>
     </table>
-    <button class="btn btn-success" href="/detail-user" type="submit">
+    <button class="btn btn-success"  type="submit">
         <i class="fa fa-user-plus">
         </i>
         <a href="/register-project">
