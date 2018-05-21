@@ -70,34 +70,22 @@ class EvaluationItemController extends Controller
         $date_string = date("Y/m/d h:i");
         //guardar evaluación
         if($operation == 'I'){
-            DB::table('calificacion')->insert(
+            DB::table('calificacion')->insert([
                 ['valor' => Input::get('valor1', 0), 'atributoCalidad_idatributoCalidad' => 1, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor2', 0), 'atributoCalidad_idatributoCalidad' => 2, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor3', 0), 'atributoCalidad_idatributoCalidad' => 3, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor4', 0), 'atributoCalidad_idatributoCalidad' => 4, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor5', 0), 'atributoCalidad_idatributoCalidad' => 5, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor6', 0), 'atributoCalidad_idatributoCalidad' => 6, 
-                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
-            DB::table('calificacion')->insert(
+                'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
                 ['valor' => Input::get('valor7', 0), 'atributoCalidad_idatributoCalidad' => 7, 
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
-            );
+            ]);
         }elseif($operation == 'U'){
             DB::table('calificacion')
             ->where('evaluacion_idevaluacion', $idproject)

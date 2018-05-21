@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,36 +28,34 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+      @if(isset($session->status) && $session->status === 1)
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Adm. Usuarios">
           <a class="nav-link" href="{{ route('usuarios') }}">
             <i class="fas fa-users-cog"></i>
             <span class="nav-link-text">Adm. Usuarios</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+        @endif
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proyectos">
           <a class="nav-link" href="{{ route('proyecto') }}">
             <i class="far fa-list-alt"></i>
             <span class="nav-link-text">Proyectos</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="{{ route('evaluacion') }}">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Evaluación</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
           <a class="nav-link" href="{{ route('reporte') }}">
             <i class="fas fa-file-alt"></i>
             <span class="nav-link-text">Reportes</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+        @if(isset($session->status) && $session->status === 1)
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Solicitud de usuarios">
           <a class="nav-link" href="{{ route('peticion') }}">
             <i class="far fa-flag"></i>
-            <span class="nav-link-text">Solicitud De Usuarios</span>
+            <span class="nav-link-text">Solicitud de Usuarios</span>
           </a>
         </li>
+        @endif
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
@@ -114,6 +111,10 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
   </div>
+  <script>
+    window.onload = function() {
+      $('#sidenavToggler').click();
+    }
+  </script>
 </body>
-
 </html>

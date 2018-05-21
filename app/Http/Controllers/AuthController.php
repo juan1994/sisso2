@@ -7,6 +7,7 @@ use App\Services\SessionService;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Hash;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -44,11 +45,11 @@ class AuthController extends Controller
         $password = Input::get('password', '');
         $errcount = Input::get('errcount', 0);
         $errors = array();
-        $results = DB::select("select correo, nombres, apellidos, password from usuario where correo=? and estado='A'", array($username));
+        $results = DB::select("select correo, nombres, apellidos, password, tipo_idTipo from usuario where correo=? and estado='A'", array($username));
         if(count($results) > 0){
-            if (Hash::check($password, '$hashedPassword'))
+            if (Hash::check($password, $results[0]->password))
             {
-                $this->session->createSession($username);
+                $this->session->createSession($username, $results[0]->tipo_idTipo);
                 return redirect()->route('home');
             }else{
                 $errcount += 1;
@@ -89,23 +90,57 @@ class AuthController extends Controller
             ->update(['status' => 0]);
             DB::table('usuario_temporal')->insert(
                 ['correo' => $input["correo"], 'nombres' => $input["nombres"], 
-                'apellidos' => $input["apellidos"], 'tel' => '00000', 'codigo' => 6253530,
+                'apellidos' => $input["apellidos"], 'tel' => $input["celular"], 'codigo' => $input["codigo"],
                 'password' => $password, 'tipo' => $input["rol"], 'created' => $date_string, 'status' => 1]
             );
             return view('auth/register-ok')->with('session', $this->session->getSession());
         }
     }
 
-  
-
     public function getusertemp()
     {
-        $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum,
-               `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM `usuario_temporal ');
-
-        return view('usuario-solicitud')->with('session', $this->session->getSession())->with('usuarioTemporal', $usuarioTemporal);
+        $usuarioTemporal = self::getListUserTemp();
+        return view('usuario-solicitud')->with('session', $this->session->getSession())
+        ->with('usuarioTemporal', $usuarioTemporal);
     }
 
-
+    public function createUserTemp(Request $request){
+        $input = Input::all();
+        $action = Input::get('action', '');
+        if($action == 'A'){
+            DB::transaction(function () {
+                $id = Input::get('id', 0);
+                $usuario = DB::select("select  `usuario_temporal`.`codigo`,`usuario_temporal`.`nombres`,`usuario_temporal`.`apellidos`,`usuario_temporal`.`tel`,`usuario_temporal`.`correo`,`usuario_temporal`.`tipo`,'A',`usuario_temporal`.`password` FROM mydb.usuario_temporal where status=1 and id=?", array($id));
+                DB::table('usuario')->insert(
+                    ['codigo' => $usuario[0]->codigo, 'nombres' => $usuario[0]->nombres, 
+                    'apellidos' => $usuario[0]->apellidos, 'celular' => $usuario[0]->tel, 'correo' => $usuario[0]->correo, 'tipo_idTipo' => $usuario[0]->tipo, 'estado' => 'A', 'password' => $usuario[0]->password]
+                );
+                DB::table('usuario_temporal')
+                ->where('id', $id)
+                ->update(['status' => 0]);
+                $message = "El usuario " . $usuario[0]->correo . " ha sido creado por el administrador";
+                $title = "Creación de usuario";
+                $content = $message;
+                Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+                {
+                    $message->to('jaestevez14@ucatolica.edu.co');
+                    $message->subject("Creación usuario Sistema de Trabajos Sociales");
+                });
+            });
+        }elseif($action == 'R'){
+            $id = Input::get('id', 0);
+            DB::table('usuario_temporal')
+            ->where('id', $id)
+            ->update(['status' => 2]);
+        }
+        /* */
+        $usuarioTemporal = self::getListUserTemp();
+        return view('usuario-solicitud')->with('session', $this->session->getSession())
+        ->with('usuarioTemporal', $usuarioTemporal);
+    }
+    private function getListUserTemp(){
+        $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum, `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM mydb.usuario_temporal where status=1 ');
+        return $usuarioTemporal;
+    }
 
 }

@@ -5,9 +5,6 @@
         <thead>
             <tr>
                 <th scope="col">
-                    Registro
-                </th>
-                <th scope="col">
                     Id Proyecto
                 </th>
                 <th scope="col">
@@ -30,13 +27,8 @@
         <tbody>
             @foreach ($proyecto as $row)
             <tr>
-                <td>
-                    <a href="/detail-project?proyectoid={{ $row->idproyecto }}">
-                        Detalle
-                    </a>
-                </td>
                 <th scope="row">
-                    {{ $row->idproyecto }}
+                    <a href="/detail-project?proyectoid={{ $row->idproyecto }}">{{ $row->idproyecto }}</a>
                 </th>
                 <td>
                     @php echo $row->nombreProyecto; @endphp
@@ -61,12 +53,18 @@
             @endforeach
         </tbody>
     </table>
+<<<<<<< HEAD
     <button class="btn btn-success"  type="submit">
         <i class="fa fa-user-plus">
         </i>
         <a href="/register-project">
             crear proyecto
         </a>
+=======
+    <button class="btn btn-success" type="submit">
+        <i class="fa fa-user-plus"></i>
+        <a style="text-decoration: none; color: white" href="/register-project">crear proyecto</a>
+>>>>>>> 2819a0d0faadec5e62730c95aee2692a782b6ec9
     </button>
     @stop
 </div>
