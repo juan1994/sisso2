@@ -121,9 +121,9 @@ class AuthController extends Controller
                 $message = "El usuario " . $usuario[0]->correo . " ha sido creado por el administrador";
                 $title = "Creación de usuario";
                 $content = $message;
-                Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+                Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message) use ($usuario)
                 {
-                    $message->to('jaestevez14@ucatolica.edu.co');
+                    $message->to($usuario[0]->correo);
                     $message->subject("Creación usuario Sistema de Trabajos Sociales");
                 });
             });
