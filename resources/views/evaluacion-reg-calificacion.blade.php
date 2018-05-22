@@ -160,14 +160,11 @@
         <input type="hidden" name="idproject" value="{{$idproject}}">
         <button class="btn btn-success" type="submit">
         <i class="far fa-save"></i> Guardar</button>
+        <button class="btn btn-success" onclick="window.location.href = '/detail-project?proyectoid={{$idproject}}'; " type="button">
+        <i class="far fa-save"></i> Cancelar</button>
     </form>
 </div>
 </div>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false"  data-backdrop="static" data-keyboard="false">
