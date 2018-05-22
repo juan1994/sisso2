@@ -111,19 +111,19 @@ class AuthController extends Controller
             DB::transaction(function () {
                 $id = Input::get('id', 0);
                 $usuario = DB::select("select  `usuario_temporal`.`codigo`,`usuario_temporal`.`nombres`,`usuario_temporal`.`apellidos`,`usuario_temporal`.`tel`,`usuario_temporal`.`correo`,`usuario_temporal`.`tipo`,'A',`usuario_temporal`.`password` FROM mydb.usuario_temporal where status=1 and id=?", array($id));
-                DB::table('usuario')->insert(
+                /*DB::table('usuario')->insert(
                     ['codigo' => $usuario[0]->codigo, 'nombres' => $usuario[0]->nombres, 
                     'apellidos' => $usuario[0]->apellidos, 'celular' => $usuario[0]->tel, 'correo' => $usuario[0]->correo, 'tipo_idTipo' => $usuario[0]->tipo, 'estado' => 'A', 'password' => $usuario[0]->password]
                 );
                 DB::table('usuario_temporal')
                 ->where('id', $id)
-                ->update(['status' => 0]);
+                ->update(['status' => 0]);*/
                 $message = "El usuario " . $usuario[0]->correo . " ha sido creado por el administrador";
                 $title = "Creación de usuario";
                 $content = $message;
-                Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+                Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message) use ($usuario)
                 {
-                    $message->to('jaestevez14@ucatolica.edu.co');
+                    $message->to($usuario[0]->correo);
                     $message->subject("Creación usuario Sistema de Trabajos Sociales");
                 });
             });
