@@ -24,10 +24,11 @@ class EvaluationController extends Controller
 
     public function get(Request $request)
     {
-        session(['user_name' => '625353']);
         $idproject = Input::get('project', 0);
+        $numproject = Input::get('idproject', 0);
         return view('evaluacion-registrar')->with('session', $this->session->getSession())->with('status', 'C')
-        ->with('idproject', $idproject)->with('operation', 'I');
+        ->with('idproject', $idproject)->with('operation', 'I')
+        ->with('numproject', $numproject);
     }
     public function operation(Request $request)
     {

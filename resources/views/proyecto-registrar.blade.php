@@ -134,8 +134,7 @@
                             <div class="input-group-addon" style="width: 2.6rem">
                                 <i class="fa fa-users"></i>
                             </div>
-                            <input autofocus="" class="form-control" id="PoblacionBeneficiada" name="PoblacionBeneficiada" placeholder="100" required="" type="text">
-                            </input>
+                            <input autofocus="" class="form-control" id="PoblacionBeneficiada" name="PoblacionBeneficiada" placeholder="100" required="" type="text"></input>
                         </div>
                     </div>
                 </div>
@@ -186,14 +185,9 @@
                                 </i>
                             </div>
                             <select class="form-control" id="selectTipoModalidad" required="">
-                                <option>
-                                </option>
-                                <option>
-                                    Trabajo de grado
-                                </option>
-                                <option>
-                                    Informatica Social
-                                </option>
+                                <option Value="">Seleccione...</option>
+                                <option value="">Trabajo de grado</option>
+                                <option value="">Informatica Social</option>
                             </select>
                         </div>
                     </div>
@@ -217,8 +211,7 @@
                             <div class="input-group-addon" style="width: 2.6rem">
                                 <i class="fa fa-edit"></i>
                             </div>
-                            <textarea  autofocus="" class="form-control" id="BreveDescripcion" name="BreveDescripcion" rows="5" required="" >
-                            </textarea>
+                            <textarea  autofocus="" class="form-control" id="BreveDescripcion" name="BreveDescripcion" rows="5" required="" ></textarea>
                         </div>
                     </div>
                 </div>
@@ -242,34 +235,7 @@
                             <div class="input-group-addon" style="width: 2.6rem">
                                 <i class="fa fa-edit"></i>
                             </div>
-                            <textarea  autofocus="" class="form-control" id="ObjetivoGeneral" name="ObjetivoGeneral" rows="5" required="" >
-                            </textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put e-mail validation error messages here -->
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-3 field-label-responsive">
-                    <label for="email">
-                        Documento
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon" style="width: 2.6rem">
-                                <i class="fa fa-file-word-o"></i>
-                            </div>
-                            <input autofocus="" class="form-control" id="documento" name="documento"  required="" type="file">
-                            </input>
+                            <textarea  autofocus="" class="form-control" id="ObjetivoGeneral" name="ObjetivoGeneral" rows="5" required="" ></textarea>
                         </div>
                     </div>
                 </div>

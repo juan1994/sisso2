@@ -40,6 +40,7 @@ class EvaluationItemController extends Controller
         $results = array();
         $weight = array();
         $idproject = Input::get('project', 0);
+        $numproject = Input::get('idproject', 0);
         $existUser = $request->session()->has('user_name');
         if($idproject > 0 && $existUser == 2){
             $username = session('user_name');
@@ -60,7 +61,8 @@ class EvaluationItemController extends Controller
         return view('evaluacion-reg-calificacion')->with('session', $this->session->getSession())
         ->with('operation', $operation)->with('calificaciones', self::getCalificaciones())
         ->with('values', $results)->with('status', $status)
-        ->with('weight', $weight)->with('idproject', $idproject);
+        ->with('weight', $weight)->with('idproject', $idproject)
+        ->with('numproject', $numproject);
     }
     public function operation(Request $request)
     {
@@ -134,7 +136,7 @@ class EvaluationItemController extends Controller
         ->with('values', array())->with('status', 0)
         ->with('weight', array())->with('idproject', $idproject);
     }
-    private function getCountMatriz($idproject){
+    public function getCountMatriz($idproject){
         $results = DB::select('select IFNULL(count(distinct usuario_codigo),0) num from matriz where evaluacion_idevaluacion=?;', array($idproject));
         return $results[0]->num;
     }

@@ -43,19 +43,17 @@
                 Anexos
             </h1>
             <tr>
-                <th scope="col">
-                    nombre del cocumento
-                </th>
-                <th scope="col">
-                    Descripcion
-                </th>
+                <th scope="col">Nombre del documento</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($proyectoAnexo as $row2)
             <tr>
-                <td> <a href="/attached?pathfile={{$row2->Ruta}}">{{$row2->NombreAnexo}}</a> </td>
-                <td>{{$row2->Descripcion}} </td>
+                <td>{{$row2->NombreAnexo}}</td>
+                <td>{{$row2->Descripcion}}</td>
+                <td><a href="/attached?pathfile={{$row2->Ruta}}">descargar</a></td>
             </tr>
             @endforeach
         </tbody>
@@ -66,6 +64,7 @@
         <h2>Agregar Anexo</h2>
         <form method="POST" enctype="multipart/form-data" action"/detail-project">
             {{ csrf_field() }}
+            <input type="hidden" name="operation" value="U"/>
             <div class="form-group">
                 <label for="m_photo" class="col-md-4 control-label">Nombre Anexo</label>
                 <div class="col-md-6">
@@ -96,37 +95,36 @@
                 Resultado De Evaluación
             </h1>
             <tr>
-                <th scope="col">
-                    resultado
-                </th>
-                <th scope="col">
-                    Fecha
-                </th>
-                <th scope="col">
-                    Actualizacion
-                </th>
+                <th scope="col">resultado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Actualizacion</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($proyectoEvaluacion as $row)
             <tr>
+                <td>{{$row->resultado}}</td>
+                <td>{{$row->fecha}}</td>
+                <td>{{$row->actualizacion}}</td>
                 <td>
-                    @php echo $row->resultado; @endphp
-                </td>
-                <td>
-                    @php echo $row->fecha; @endphp
-                </td>
-                <td>
-                    @php echo $row->actualizacion; @endphp
+                    <div class="btn-group">
+                    <button class="btn btn-default" onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                            Agregar Matriz</button>
+                        <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                            Agregar Calificación</button>
+                    </div>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-<button class="btn btn-success" onclick="window.location.href = '/evaluation-cal?proyectoid={{$proyecto[0]->idproyecto}}'; " type="button">
-<i class="fa fa-user-plus"></i>Agregar Matriz</button>
-<button class="btn btn-success" onclick="window.location.href = '/evaluations?proyectoid={{$proyecto[0]->idproyecto}}'; " type="button">
-<i class="fa fa-user-plus"></i>Agregar Evaluación</button>
+<form method="POST" action"/detail-project">
+    {{ csrf_field() }}
+    <input type="hidden" name="idproject" value="{{$proyecto[0]->idproyecto}}"/>
+    <input type="hidden" name="operation" value="A"/>
+    <button class="btn btn-success" type="submit" method="POST"><i class="fa fa-user-plus"></i>Agregar Evaluación</button>
+</form>
 <script>
   function showForm(){
     $('#addfile').removeClass('d-none');

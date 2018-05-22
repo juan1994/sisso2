@@ -298,7 +298,7 @@
         <input type="hidden" name="idproject" value="{{$idproject}}">
         <button class="btn btn-success" type="submit">
         <i class="fa fa-user-plus"></i>Guardar</button>
-        <button class="btn btn-success" onclick="window.location.href = '/detail-project?proyectoid={{$idproject}}'; " type="button">
+        <button class="btn btn-success" onclick="window.location.href = '/detail-project?proyectoid={{$numproject}}'; " type="button">
             <i class="far fa-save"></i> Cancelar</button>
     </form>
 </div>

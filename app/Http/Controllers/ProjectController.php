@@ -47,10 +47,12 @@ class ProjectController extends Controller
                 `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
 
 
-        $proyectoEvaluacion = DB::select('select  @rownum:=@rownum+1 AS rownum,
+        $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
 
-
+        
+        $result = app('App\Http\Controllers\EvaluationItemController')->getCountMatriz($proyectoid);
+        var_dump($result);
         return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
 
     }
@@ -88,13 +90,14 @@ class ProjectController extends Controller
         }
         return view('proyecto-registrar')->with('session', $this->session->getSession());
     }
-    /**
-     * Operación sobre el proyecto
-     * Eliminar - Actualizar
-     */
-    public function operation()
-    {
-
+  
+    private function createEvaluation(Request $request){
+        $idproject      = Input::get('idproject', '');
+        $date_string    = date("Y/m/d h:i");
+        DB::table('evaluacion')->insert(
+            ['resultado' => 0, 'proyecto_idproyecto' => $idproject, 
+            'fecha' => $date_string, 'actualizacion' => $date_string]);
+        return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
     /**
      * Operaciones - Archivos
@@ -104,26 +107,38 @@ class ProjectController extends Controller
         $pathfile = Input::get('pathfile', '');
         return Storage::download($pathfile);
     }
-    public function createFile(Request $request)
+      /**
+     * Operación sobre el proyecto
+     * Eliminar - Actualizar
+     */
+    public function operation(Request $request)
     {
-        $nombre_archivo = Input::get('myFile', '');
-        $nombre         = Input::get('nombre', '');
-        $descripcion    = Input::get('descripcion', '');
-        $idproject      = Input::get('idproject', '');
         $date_string    = date("Y/m/d h:i");
-        // validar permisos
-        //var_dump('Proyectos/' . $nombre_archivo);
-        //crear archivo
-        if ($request->file('myFile') == null) {
-            $path = "No hay archivo";
-        }else{
-           $path = $request->file('myFile')->store('Proyectos/' . strval($idproject));
-            // crear registro de consulta
-            DB::table('anexo')->insert(
-                ['NombreAnexo' => $nombre, 'Ruta'                     => $path,
-                    'Descripcion'  => $descripcion, 'proyecto_idprotecto' => $idproject,
-                    'created'      => $date_string, 'user'                => 625353]
-            );
+        $operation = Input::get('operation', '');
+        $idproject      = Input::get('idproject', '');
+
+        if($operation == 'U'){
+            $nombre_archivo = Input::get('myFile', '');
+            $nombre         = Input::get('nombre', '');
+            $descripcion    = Input::get('descripcion', '');
+            // validar permisos
+            //var_dump('Proyectos/' . $nombre_archivo);
+            //crear archivo
+            if ($request->file('myFile') == null) {
+                $path = "No hay archivo";
+            }else{
+            $path = $request->file('myFile')->store('Proyectos/' . strval($idproject));
+                // crear registro de consulta
+                DB::table('anexo')->insert(
+                    ['NombreAnexo' => $nombre, 'Ruta'                     => $path,
+                        'Descripcion'  => $descripcion, 'proyecto_idprotecto' => $idproject,
+                        'created'      => $date_string, 'user'                => 625353]
+                );
+            }
+        }elseif($operation == 'A'){
+            DB::table('evaluacion')->insert(
+                ['resultado' => 0, 'proyecto_idproyecto' => $idproject, 
+                'fecha' => $date_string, 'actualizacion' => $date_string]);
         }
         return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
