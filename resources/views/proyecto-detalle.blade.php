@@ -123,10 +123,10 @@
             @endforeach
         </tbody>
     </table>
-<button class="btn btn-success" type="button">
-<a style="decoration: none; color: white" href="/evaluation-cal?project={{$proyecto[0]->idproyecto}}"><i class="fa fa-user-plus"></i>Agregar Matriz</a></button>
-<button class="btn btn-success" type="button">
-<a style="decoration: none; color:white" href="/evaluations?project={{$proyecto[0]->idproyecto}}"><i class="fa fa-user-plus"></i>Agregar Evaluación<a></button>
+<button class="btn btn-success" onclick="window.location.href = '/evaluation-cal?proyectoid={{$proyecto[0]->idproyecto}}'; " type="button">
+<i class="fa fa-user-plus"></i>Agregar Matriz</button>
+<button class="btn btn-success" onclick="window.location.href = '/evaluations?proyectoid={{$proyecto[0]->idproyecto}}'; " type="button">
+<i class="fa fa-user-plus"></i>Agregar Evaluación</button>
 <script>
   function showForm(){
     $('#addfile').removeClass('d-none');
