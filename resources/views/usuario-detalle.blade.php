@@ -9,7 +9,7 @@
   
   <thead>
     <tr>
-      
+      <th scope="col">Codigo</th>
       <th scope="col">Nombres</th>
       <th scope="col">Apellidos</th>
       <th scope="col">Celular</th>
@@ -23,7 +23,7 @@
     @foreach ($usuario as $row)
     
     <tr>
-      
+      <td> @php echo $row->codigo; @endphp </td>
       <td> @php echo $row->nombres; @endphp </td>
       <td> @php echo $row->apellidos; @endphp </td>
       <td> @php echo $row->celular; @endphp </td>
@@ -37,12 +37,22 @@
             Estudiante   
         @endif
       </td>
-      <td> @php echo $row->estado; @endphp </td>
+      <td> 
+        @if ($row->estado ===  'A')
+          activo
+        @elseif ($row->estado === 'I')
+            inactivo
+        @endif
+      </td>
       </tr>
     @endforeach
     </tbody>
 </table>
-  
+<td>
+ <a href="/update-user?userid={{ $row->codigo }}">
+                        Actualizar
+                    </a>
+                </td>
 
 
  

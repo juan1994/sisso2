@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-6">
                     <h2>
-                        Registro Proyecto
+                        Actualizar Proyecto
                     </h2>
                     <hr>
                     </hr>

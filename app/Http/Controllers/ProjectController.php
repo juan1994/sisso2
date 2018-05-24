@@ -37,6 +37,13 @@ class ProjectController extends Controller
         return view('proyecto-listar')->with('session', $this->session->getSession())->with('proyecto', $proyecto);
     }
 
+    public function updateProyect()
+    {
+        $proyecto = DB::select('select  @rownum:=@rownum+1 AS rownum, `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
+        //var_dump($proyecto);
+        return view('proyecto-actualizar')->with('session', $this->session->getSession())->with('proyecto', $proyecto);
+    }
+
     public function getDetailProject()
     {
         $proyectoid = Input::get('proyectoid', 0);

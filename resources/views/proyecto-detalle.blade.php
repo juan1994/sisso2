@@ -136,5 +136,10 @@ window.onload = function() {
   //$('#addfile').removeClass('d-none');
 };
 </script>
+
+<a href="/update-project?idproject={{$proyecto[0]->idproyecto}}">
+                        Actualizar
+                    </a>
+                </td>
 @stop
 

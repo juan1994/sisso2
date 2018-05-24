@@ -19,6 +19,7 @@ Route::post('/login', 'AuthController@login')->name('login-p');
 Route::get('/logout', 'AuthController@getLogout')->name('logout');
 Route::get('/register', 'AuthController@getRegister')->name('registro');
 Route::post('/register', 'AuthController@createUser')->name('registro-p');
+Route::post('/rememberpassword', 'AuthController@rememberpassword')->name('recordar-contrasena');
 
 /** TEST */
 Route::get('/help', 'HelpController@get');
@@ -27,6 +28,7 @@ Route::post('/help', 'HelpController@create');
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
 Route::get('/detail-user', 'UserController@detailUser')->name('detalle-usuario');
+Route::get('/update-user', 'UserController@updateUser')->name('actualizar-usuario');
 
 Route::get('/projects', 'ProjectController@getList')->name('proyecto');
 Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
@@ -34,6 +36,7 @@ Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto
 
 Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detalle-proyecto');
 Route::get('/register-project', 'ProjectController@getproyectregister')->name('proyecto-registrar');
+Route::get('/update-project', 'ProjectController@updateProyect')->name('proyecto-actualizar');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
 Route::post('/evaluations', 'EvaluationController@operation')->name('evaluacion-p');

@@ -36,6 +36,31 @@ class UserController extends Controller
         $userid = Input::get('userid', 0);
             $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
                 `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
+
        return view('usuario-detalle')->with('session', $this->session->getSession())->with('usuario', $usuario); 
     }
+
+    
+
+    public function updateUser()
+    {
+                
+            $userid = Input::get('userid', 0);
+            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
+
+
+
+
+            $kinds = DB::select("select idTipo as id, nombreTipo as detalle  from tipo order by idTipo");
+        return view('usuario-actualizar')->with('session', $this->session->getSession())
+        ->with('kinds', $kinds)->with('usuario', $usuario);
+
+
+       
+    }
+
+
+
+
 }
