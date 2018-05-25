@@ -25,42 +25,37 @@ class UserController extends Controller
     public function get()
     {
 
-            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+        $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
                 `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario`');
-       return view('usuario-listar')->with('session', $this->session->getSession())->with('usuario', $usuario); 
+        return view('usuario-listar')->with('session', $this->session->getSession())->with('usuario', $usuario); 
         
     }
 
-    public function detailUser()
+    public function getDetailUser()
     {
+        $data_session = $this->session->getSession();
         $userid = Input::get('userid', 0);
-            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
-                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
-
-       return view('usuario-detalle')->with('session', $this->session->getSession())->with('usuario', $usuario); 
-    }
-
-    
-
-    public function updateUser()
-    {
-                
-            $userid = Input::get('userid', 0);
-            $usuario = DB::select('select  @rownum:=@rownum+1 AS rownum, 
-                `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
-
-
-
-
+        $cview = Input::get('view', '');
+        var_dump($cview);
+        if($data_session->status !== 1){
+            return redirect('/');
+        }elseif(intval($data_session->code) !== intval($userid) && $data_session->rol !== 1){
+            return redirect('/');
+        }else{            
+            $usuario = DB::select('select 
+                    `codigo`,`nombres`,`apellidos`,`celular`,`correo`,`tipo_idTipo`,`estado` from `usuario` where codigo=?', array($userid));
             $kinds = DB::select("select idTipo as id, nombreTipo as detalle  from tipo order by idTipo");
-        return view('usuario-actualizar')->with('session', $this->session->getSession())
-        ->with('kinds', $kinds)->with('usuario', $usuario);
-
-
-       
+            return view('usuario-actualizar')->with('session', $this->session->getSession())
+            ->with('kinds', $kinds)->with('usuario', $usuario[0])->with('cview', $cview);
+        }
     }
-
-
-
+    public function operationUser(){
+        $input = Input::all();
+        DB::table('usuario')
+            ->where('codigo', $input["codigo"])
+            ->update(['nombres' => $input["nombres"], 'apellidos' => $input["apellidos"], 
+            'celular' => $input["celular"]]);
+        return redirect()->route('detalle-usuario', ['userid' => $input["codigo"],'view' => 'UUA']);
+    }
 
 }

@@ -5,7 +5,7 @@
         <thead>
             <tr>
                 <th scope="col">
-                    Registro
+                    codigo
                 </th>
                 <th scope="col">
                     Nombres
@@ -16,6 +16,12 @@
                 <th scope="col">
                     rol
                 </th>
+                <th scope="col">
+                    Estado
+                </th>
+                <th scope="col">
+                    Acción
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +29,7 @@
             <tr>
                 <td>
                     <a href="/detail-user?userid={{ $row->codigo }}">
-                        Detalle
+                        @php echo $row->codigo; @endphp
                     </a>
                 </td>
                 <td>
@@ -34,12 +40,30 @@
                 </td>
                 <td>
                     @if ($row->tipo_idTipo ===  1)
-          Administrador
-        @elseif ($row->tipo_idTipo === 2)
-            Docente
-         @elseif ($row->tipo_idTipo === 3)
-            Estudiante   
-        @endif
+                    Administrador
+                    @elseif ($row->tipo_idTipo === 2)
+                        Docente
+                    @elseif ($row->tipo_idTipo === 3)
+                        Estudiante   
+                    @endif
+                </td>
+                <td>
+                    @if ($row->estado ===  'A')
+                        activo
+                    @elseif ($row->estado === 'I')
+                        Inactivo
+                    @endif
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-default" onclick="action({{$row->codigo}},'{{$row->estado}}')" type="button">
+                            @if ($row->estado ===  'A')
+                                Inactivar
+                            @elseif ($row->estado === 'I')
+                                activar
+                            @endif
+                        </button>
+                    </div>
                 </td>
             </tr>
             @endforeach

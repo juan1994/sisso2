@@ -9,6 +9,11 @@ class UserSession
      * @var string 
      */
     public $name;
+     /**
+     * An indentifier
+     * @var integer
+     */
+    public $code;
     /**
      * An indentifier
      * @var string
@@ -23,6 +28,7 @@ class UserSession
     public function __construct()
     {
         $this->name = "";
+        $this->code = 0;
         $this->rol = "";
         $this->status = 0;
     }

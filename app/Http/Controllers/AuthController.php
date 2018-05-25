@@ -45,11 +45,11 @@ class AuthController extends Controller
         $password = Input::get('password', '');
         $errcount = Input::get('errcount', 0);
         $errors = array();
-        $results = DB::select("select correo, nombres, apellidos, password, tipo_idTipo from usuario where correo=? and estado='A'", array($username));
+        $results = DB::select("select correo, nombres, apellidos, password, codigo, tipo_idTipo from usuario where correo=? and estado='A'", array($username));
         if(count($results) > 0){
             if (Hash::check($password, $results[0]->password))
             {
-                $this->session->createSession($username, $results[0]->tipo_idTipo);
+                $this->session->createSession($username, $results[0]->codigo, $results[0]->tipo_idTipo);
                 return redirect()->route('home');
             }else{
                 $errcount += 1;

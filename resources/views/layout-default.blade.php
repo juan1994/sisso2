@@ -67,7 +67,8 @@
       <ul class="navbar-nav ml-auto">
         @if(isset($session->name))
           <li class="nav-item">
-            <span class="nav-link" style="cursor: none;">{{$session->name}}</span>
+            <a class="nav-link" href="/detail-user?userid={{ $session->code }}">
+              {{$session->name}}</a>
           </li>
         @endif
         <li class="nav-item">

@@ -27,8 +27,8 @@ Route::post('/help', 'HelpController@create');
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
-Route::get('/detail-user', 'UserController@detailUser')->name('detalle-usuario');
-Route::get('/update-user', 'UserController@updateUser')->name('actualizar-usuario');
+Route::get('/detail-user', 'UserController@getDetailUser')->name('detalle-usuario');
+Route::post('/detail-user', 'UserController@operationUser')->name('actualizar-usuario');
 
 Route::get('/projects', 'ProjectController@getList')->name('proyecto');
 Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');

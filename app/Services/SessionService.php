@@ -24,10 +24,11 @@ class SessionService
         }
         return $user;
     }
-    public function createSession($username, $type)
+    public function createSession($username, $code,  $type)
     {
         $user = new UserSession();
         $user->name = $username;
+        $user->code = $code;
         $user->status = 1;
         $user->rol = $type;
         session(['user_session' => $user]);
