@@ -117,7 +117,7 @@ class AuthController extends Controller
                 );
                 DB::table('usuario_temporal')
                 ->where('id', $id)
-                ->update(['status' => 0]);
+                ->update(['status' => 0, password => '']);
                 $message = "El usuario " . $usuario[0]->correo . " ha sido creado por el administrador";
                 $title = "Creación de usuario";
                 $content = $message;
@@ -141,6 +141,84 @@ class AuthController extends Controller
     private function getListUserTemp(){
         $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum, `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM mydb.usuario_temporal where status=1 ');
         return $usuarioTemporal;
+    }
+
+    public function getReset(){
+        return view('auth/email')->with('session', $this->session->getSession())
+        ->with('errors', array())->with('result', array())->with('email', '');
+    }
+    public function operationReset(){
+        $errors = array();
+        $result = array();
+        $email = Input::get('email', '');
+        $date_string = date("Y/m/d h:i");
+        $url_email = env("URL_EMAIL_RESET", "correo no configurado");
+        $token = uniqid('Uco', true);
+        $results_user = DB::select("select codigo from usuario where correo=? and estado='A'", array($email));
+        if(count($results_user) > 0){
+            DB::table('token_usuario')
+            ->where('user', $results_user[0]->codigo)
+            ->where('action', 'R')
+            ->where('status', 1)
+            ->update(['status' => 0]);
+
+            DB::table('token_usuario')->insert([
+                'action' => 'R', 'token' => $token, 'status' => 1, 
+                'created' => $date_string, 'user' => $results_user[0]->codigo]);
+
+            $result['email'] = "solicitud creada";
+            $message = "Usuario " . $results_user[0]->codigo . " ingresa al siguiente link para restablecer la contraseña: "
+                . $url_email . '?id=' . $token;
+            $title = "Restablecer contraseña";
+            $content = $message;
+            Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message) use ($email)
+            {
+                $message->to($email);
+                $message->subject("Restablecer contraseña - Sistema de Trabajos Sociales");
+            });
+            $email='';
+        }else{
+            $errors['email'] = "usuario no encontrado";
+        }
+
+        return view('auth/email')->with('session', $this->session->getSession())
+        ->with('errors', $errors)->with('result', $result)->with('email', $email);
+    }
+
+    public function getResetPassword(){
+        $token = Input::get('id', '');
+        $errors = array();
+        $results_user = DB::select("select id from token_usuario where token=? and status=1", array($token));
+        if(count($results_user) > 0){
+
+        }else{
+            $errors['token'] = "Token invalido";
+        }
+        return view('auth/reset')->with('session', $this->session->getSession())
+        ->with('errors', $errors)->with('result', array())->with('token', $token);
+    }
+    public function operationResetPassword(){
+        $errors = array();
+        $result = array();
+        $token = Input::get('token', '');
+        $date_string = date("Y/m/d h:i");
+        $results_user = DB::select("select user from token_usuario where token=? and status=1", array($token));
+        if(count($results_user) > 0){
+            $password = Hash::make(Input::get('password', ''));
+            DB::table('usuario')
+            ->where('codigo', $results_user[0]->user)
+            ->where('estado', 'A')
+            ->update(['password' => $password]);
+            DB::table('token_usuario')
+            ->where('token', $token)
+            ->where('status', 1)
+            ->update(['status' => 0, 'token' => '', 'used' => $date_string]);
+            $result['user'] = "Contraseña cambiar exitosamente";
+        }else{
+            $errors['user'] = "Error al cambiar la contraseña";
+        }
+        return view('auth/reset')->with('session', $this->session->getSession())
+        ->with('errors', $errors)->with('result', $result)->with('token', '');
     }
 
 }

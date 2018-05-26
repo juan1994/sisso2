@@ -19,11 +19,10 @@ Route::post('/login', 'AuthController@login')->name('login-p');
 Route::get('/logout', 'AuthController@getLogout')->name('logout');
 Route::get('/register', 'AuthController@getRegister')->name('registro');
 Route::post('/register', 'AuthController@createUser')->name('registro-p');
-Route::post('/rememberpassword', 'AuthController@rememberpassword')->name('recordar-contrasena');
-
-/** TEST */
-Route::get('/help', 'HelpController@get');
-Route::post('/help', 'HelpController@create');
+Route::get('/rememberpassword', 'AuthController@getReset')->name('recordar-contrasena');
+Route::post('/rememberpassword', 'AuthController@operationReset')->name('recordar-contrasena-p');
+Route::get('/resetpassword', 'AuthController@getResetPassword')->name('restablecer-contrasena');
+Route::post('/resetpassword', 'AuthController@operationResetPassword')->name('restablecer-contrasena-p');
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
