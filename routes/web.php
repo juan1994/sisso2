@@ -30,11 +30,9 @@ Route::get('/detail-user', 'UserController@getDetailUser')->name('detalle-usuari
 Route::post('/detail-user', 'UserController@operationUser')->name('actualizar-usuario');
 
 Route::get('/projects', 'ProjectController@getList')->name('proyecto');
-Route::get('/create-project', 'ProjectController@get')->name('crear-proyecto');
-Route::post('/create-project', 'ProjectController@create')->name('crear-proyecto-p');
-
 Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detalle-proyecto');
 Route::get('/register-project', 'ProjectController@getproyectregister')->name('proyecto-registrar');
+Route::post('/register-project', 'ProjectController@createproyectregister')->name('proyecto-registrar-p');
 Route::get('/update-project', 'ProjectController@updateProyect')->name('proyecto-actualizar');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');

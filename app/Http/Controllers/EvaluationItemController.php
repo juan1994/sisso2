@@ -33,6 +33,7 @@ class EvaluationItemController extends Controller
     }
     public function get(Request $request)
     {
+        $session_user = $this->session->getSession();
         //$data = $request->session()->all();   
         //var_dump($data);
         $operation = 'I';
@@ -41,9 +42,8 @@ class EvaluationItemController extends Controller
         $weight = array();
         $idproject = Input::get('project', 0);
         $numproject = Input::get('idproject', 0);
-        $existUser = $request->session()->has('user_name');
-        if($idproject > 0 && $existUser == 2){
-            $username = session('user_name');
+        if($idproject > 0 && $session_user->status != 0 ){
+            $username = $session_user->code;
             //validar existencia de matriz
             $exist = self::getCountMatriz($idproject);
             if($exist >= 3){
@@ -66,9 +66,11 @@ class EvaluationItemController extends Controller
     }
     public function operation(Request $request)
     {
+        $session_user = $this->session->getSession();
         $operation = Input::get('operation', 'N');
         $idproject = Input::get('idproject', 0);
-        $username = session('user_name');
+        $numproject = Input::get('numproject', 0);
+        $username = $session_user->code;
         $date_string = date("Y/m/d h:i");
         //guardar evaluación
         if($operation == 'I'){
@@ -130,18 +132,18 @@ class EvaluationItemController extends Controller
         if($exist >= 3){
             self::calculateValue($idproject);
         }
-        //return redirect()->route('evaluacion-calificacion', ['project' => 1001,'res_val' => 0]);
-        return view('evaluacion-reg-calificacion')->with('session', $this->session->getSession())
+        return redirect()->route('detalle-proyecto', ['proyectoid' => $numproject]);
+        /*return view('evaluacion-reg-calificacion')->with('session', $session_user)
         ->with('operation', 'I')->with('calificaciones', self::getCalificaciones())
         ->with('values', array())->with('status', 0)
-        ->with('weight', array())->with('idproject', $idproject);
+        ->with('weight', array())->with('idproject', $idproject)->with('numproject', $numproject);*/
     }
     public function getCountMatriz($idproject){
         $results = DB::select('select IFNULL(count(distinct usuario_codigo),0) num from matriz where evaluacion_idevaluacion=?;', array($idproject));
         return $results[0]->num;
     }
     private function getAverage($idproject, $username ){
-        $results = DB::select('SELECT posY, AVG(valor/sum_item(evaluacion_idevaluacion,usuario_codigo,posY)) promedio FROM matriz where evaluacion_idevaluacion=? and usuario_codigo=? group by posY order by posY', array($idproject, $username));
+        $results = DB::select('SELECT posX, AVG(valor/sum_item(evaluacion_idevaluacion,usuario_codigo,posY)) promedio FROM matriz where evaluacion_idevaluacion=? and usuario_codigo=? group by posX order by posX', array($idproject, $username));
         return $results;
     }
     private function generateWeight($idproject){
@@ -153,7 +155,7 @@ class EvaluationItemController extends Controller
             $user3 = self::getAverage($idproject, $users[2]->usuario_codigo);
             for ($x = 0; $x < 7; $x++) {
                 $value = ($user1[$x]->promedio + $user2[$x]->promedio + $user3[$x]->promedio)/3;
-                array_push($r,round($value,2));
+                array_push($r,round($value,3));
             }
         }else{
             array_push($r, 0,0,0,0,0,0,0);
@@ -169,7 +171,8 @@ class EvaluationItemController extends Controller
         $weiht = self::generateWeight($idproject);
         $total = 0;
         for ($x = 0; $x < 7; $x++) {
-            $total += $average[$x]->promedio * $weiht[$x];
+            $val = $average[$x]->promedio * $weiht[$x];
+            $total += $val;
         }
         DB::table('evaluacion')
             ->where('idevaluacion', $idproject)

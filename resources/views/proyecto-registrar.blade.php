@@ -9,7 +9,7 @@
 <body>
 
     <div class="container">
-        <form action="/create-project" class="form-horizontal" method="POST" role="form">
+        <form action="/register-project" class="form-horizontal" method="POST" role="form">
         {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-3">
@@ -184,10 +184,10 @@
                                 <i class="fa fa-vcard-o" style="font-size:20px">
                                 </i>
                             </div>
-                            <select class="form-control" id="selectTipoModalidad" required="">
+                            <select class="form-control" id="selectTipoModalidad" name="TipoModalidad" required>
                                 <option Value="">Seleccione...</option>
-                                <option value="">Trabajo de grado</option>
-                                <option value="">Informatica Social</option>
+                                <option value="1">Trabajo de grado</option>
+                                <option value="2">Informatica Social</option>
                             </select>
                         </div>
                     </div>

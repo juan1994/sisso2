@@ -64,38 +64,38 @@ class ProjectController extends Controller
 
     }
 
-    public function getproyectregister()
-    {
-        return view('proyecto-registrar')->with('session', $this->session->getSession())->with('status', 'C');
-
-       //return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
-       
-
-    }
-
     /**
      * Mostrar formulario de creación
      */
-    public function get()
+    public function getproyectregister()
     {
-        return view('proyecto-registrar')->with('session', $this->session->getSession())->with('status', 'C');
+        return view('proyecto-registrar')->with('session', $this->session->getSession());
     }
-    public function create()
+    public function createproyectregister()
     {
-        // pasar datos a estrcutura
+        $session_user = $this->session->getSession();
+        $date_string = date("Y/m/d h:i");
+        // pasar datos a estructura
         $data = request()->all();
         //var_dump($data);
-        //guardar datos
-        //devolver resultado
-        try {
-            $res = DB::insert('insert into name_table (id, name) values (?, ?)',
-                [request('NombreProyecto'), request('FechaInicio')]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            //dd($e);
-        } catch (PDOException $e) {
-            dd($e);
+        //guardar datos    
+        if($session_user->status != 0){
+            try {
+                $idProject = DB::table('proyecto')->insertGetId(
+                    ['nombreProyecto' => $data['NombreProyecto'], 'fechaRegistro' => $date_string, 
+                    'fechaInicio' => $data['FechaInicio'], 'fechaFinalizacion' => $data['FechaFinalizacion'], 'presuesto' => $data['Presupuesto'], 
+                    'problacionBeneficiada' => $data['PoblacionBeneficiada'], 'nombreResponsable' => $data['NombreResponsable'],
+                    'descripcion' => $data['BreveDescripcion'],'objetivoGeneral' => $data['ObjetivoGeneral'],
+                    'tipoModalidad_idtipoModalidad' => $data['TipoModalidad'],'EstadoProyecto' => 0 ]);
+                $res = DB::table('usuario_has_proyecto')->insert(
+                    ['usuario_codigo' => $session_user->code, 'protecto_idprotecto' => $idProject]);
+            } catch (PDOException $e) {
+                dd($e);
+            }
+            return redirect()->route('proyecto', []);
+        }else{
+            return view('proyecto-registrar')->with('session', $session_user);
         }
-        return view('proyecto-registrar')->with('session', $this->session->getSession());
     }
   
     private function createEvaluation(Request $request){

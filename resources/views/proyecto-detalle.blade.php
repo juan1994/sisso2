@@ -109,9 +109,9 @@
                 <td>{{$row->actualizacion}}</td>
                 <td>
                     <div class="btn-group">
-                    <button class="btn btn-default" onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                    <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Matriz</button>
-                        <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                        <button class="btn btn-default" onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Calificación</button>
                     </div>
                 </td>

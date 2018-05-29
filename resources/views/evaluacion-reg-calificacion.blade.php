@@ -158,6 +158,7 @@
         </table>
         <input type="hidden" name="operation" id="operation" value="{{$operation}}">
         <input type="hidden" name="idproject" value="{{$idproject}}">
+        <input type="hidden" name="numproject" value="{{$numproject}}">
         <button class="btn btn-success" type="submit">
         <i class="far fa-save"></i> Guardar</button>
         <button class="btn btn-success" onclick="window.location.href = '/detail-project?proyectoid={{$numproject}}'; " type="button">

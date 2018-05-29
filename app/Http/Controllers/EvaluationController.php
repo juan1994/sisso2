@@ -32,9 +32,11 @@ class EvaluationController extends Controller
     }
     public function operation(Request $request)
     {
+        $session_user = $this->session->getSession();
         $operation = Input::get('operation', 'N');
         $idproject = Input::get('idproject', 0);
-        $username = session('user_name');
+        $numproject = Input::get('numproject', 0);
+        $username = $session_user->code;
         $date_string = date("Y/m/d h:i");
         //$input = $request->all();
         //var_dump($input);
@@ -139,7 +141,10 @@ class EvaluationController extends Controller
             ['valor' => Input::get('campo77', 0), 'posX' => 7, 'posY' => 7, 
             'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
         ]);
-        return view('evaluacion-registrar')->with('session', $this->session->getSession())->with('status', 'C')
-        ->with('idproject', $idproject)->with('operation', 'I');;
+        /*
+        return view('evaluacion-registrar')->with('session', $session_user)->with('status', 'C')
+        ->with('idproject', $idproject)->with('operation', 'I')
+        ->with('numproject', $numproject);*/
+        return redirect()->route('detalle-proyecto', ['proyectoid' => $numproject]);
     }
 }
