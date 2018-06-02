@@ -1,5 +1,8 @@
 @extends('layout-default')
 @section('content')
+<link href="css/sb-admin.css" rel="stylesheet"> 
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<body background="back.jpg">
 <div class="table-responsive">
     <table class="table table-striped table-white">
         <thead>
@@ -71,3 +74,5 @@
     </table>
     @stop
 </div>
+
+</body>

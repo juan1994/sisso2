@@ -254,10 +254,25 @@
                         <button id="submit-cancel" onclick="cancel()" class="btn btn-default d-none" type="button">
                             Cancelar</button>
                     </div>
+                    <button id="atras" onclick="back()" class="btn btn-success" type="button">
+                        <a href="javascript:window.history.go(-1);"><font color=white>atras</font></a></button>
+                        </div>  
+
+                       
             </div>
+            
         </form>
     </div>
 <script>
+    function back()
+    {
+
+    return view('usuario-listar')->with('session', $this->session->getSession());
+
+   }  
+</script>   
+<script>
+  
 function validate(){
     $("#submit-reg").prop("disabled",false);
     $("#error-password").hide();

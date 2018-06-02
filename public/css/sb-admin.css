@@ -5,6 +5,7 @@ html {
 
 body {
   overflow-x: hidden;
+  background:url(back.jpg) center center cover no-repeat fixed;
 }
 
 body.sticky-footer {
