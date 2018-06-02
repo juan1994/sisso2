@@ -34,6 +34,7 @@ Route::get('/detail-project', 'ProjectController@getDetailProject')->name('detal
 Route::get('/register-project', 'ProjectController@getProjectRegister')->name('proyecto-registrar');
 Route::post('/register-project', 'ProjectController@createProjectRegister')->name('proyecto-registrar-p');
 Route::get('/update-project', 'ProjectController@getUpdateProject')->name('proyecto-actualizar');
+Route::post('/update-project', 'ProjectController@updateProject')->name('proyecto-actualizar-p');
 
 Route::get('/evaluations', 'EvaluationController@get')->name('evaluacion');
 Route::post('/evaluations', 'EvaluationController@operation')->name('evaluacion-p');

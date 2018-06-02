@@ -36,7 +36,6 @@ class UserController extends Controller
         $data_session = $this->session->getSession();
         $userid = Input::get('userid', 0);
         $cview = Input::get('view', '');
-        var_dump($cview);
         if($data_session->status !== 1){
             return redirect('/');
         }elseif(intval($data_session->code) !== intval($userid) && $data_session->rol !== 1){

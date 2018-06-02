@@ -46,16 +46,34 @@ class ProjectController extends Controller
         if(!$this->session->validatePermission('PRUP')){
             return redirect()->route('home', []);
         }
-        $proyecto = DB::select('select  @rownum:=@rownum+1 AS rownum, `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto`');
-        return view('proyecto-actualizar')->with('session', $session_user)->with('proyecto', $proyecto);
+        $idproject = Input::get('idproject', 0);
+        $project_detail = DB::select('select `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($idproject));
+        return view('proyecto-actualizar')->with('session', $session_user)->with('project', $project_detail[0]);
+    }
+    public function updateProject(){
+        $input = Input::all();
+        DB::table('proyecto')
+            ->where('idproyecto', $input["idproject"])
+            ->update([
+            'nombreProyecto' => $input["NombreProyecto"],
+            'fechaInicio' => $input["FechaInicio"], 
+            'fechaFinalizacion' => $input["FechaFinalizacion"],
+            'presuesto' => $input["Presupuesto"],
+            'problacionBeneficiada' => $input["PoblacionBeneficiada"],
+            'nombreResponsable' => $input["NombreResponsable"],
+            'tipoModalidad_idtipoModalidad' => $input["TipoModalidad"],
+            'descripcion' => $input["BreveDescripcion"],
+            'objetivoGeneral' => $input["ObjetivoGeneral"]
+            ]);
+        return redirect()->route('detalle-proyecto', ['proyectoid' => $input["idproject"]]);
     }
 
     public function getDetailProject()
     {
         $proyectoid = Input::get('proyectoid', 0);
-        $proyecto   = DB::select('select  @rownum:=@rownum+1 AS rownum,
-                `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));            
-        $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum, 
+        $proyecto   = DB::select('select
+                `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
+        $proyectoAnexo = DB::select('select
                 `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
         $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
