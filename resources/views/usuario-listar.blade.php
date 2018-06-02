@@ -2,7 +2,6 @@
 @section('content')
 <link href="css/sb-admin.css" rel="stylesheet"> 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<body background="back.jpg">
 <div class="table-responsive">
     <table class="table table-striped table-white">
         <thead>
@@ -57,6 +56,7 @@
                         Inactivo
                     @endif
                 </td>
+                @if($row->codigo !== $session->code)
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-default" onclick="action({{$row->codigo}},'{{$row->estado}}')" type="button">
@@ -68,11 +68,23 @@
                         </button>
                     </div>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
     </table>
-    @stop
 </div>
-
-</body>
+<form style="display: none" method="POST">
+    {{ csrf_field() }}
+    <input id="code-user" type="hidden" name="code-user" value=""/>
+    <input id="action" type="hidden" name="action" value=""/>
+    <button id="button-action" type="submit"></button>
+</form>
+<script>
+    function action(code, option){
+        $('#action').val(option);
+        $('#code-user').val(code);
+        $( "#button-action" ).click();
+    }
+</script>
+@stop

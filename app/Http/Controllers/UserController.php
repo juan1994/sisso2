@@ -56,5 +56,22 @@ class UserController extends Controller
             'celular' => $input["celular"]]);
         return redirect()->route('detalle-usuario', ['userid' => $input["codigo"],'view' => 'UUA']);
     }
+    public function operationStatusUser(){
+        $input = Input::all();
+        $new_status = '';
+        if($input["action"] == 'A'){
+            $new_status = 'I';
+        }elseif($input["action"] == 'I'){
+            $new_status = 'A';
+        }
+        if($new_status != ''){
+        DB::table('usuario')
+            ->where('codigo', $input["code-user"])
+            ->update([
+                'estado' => $new_status
+            ]);
+        }
+        return redirect()->route('usuarios', []);
+    }
 
 }

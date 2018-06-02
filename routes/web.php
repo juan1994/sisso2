@@ -26,6 +26,7 @@ Route::post('/resetpassword', 'AuthController@operationResetPassword')->name('re
 
 /** APP */
 Route::get('/users', 'UserController@get')->name('usuarios');
+Route::post('/users', 'UserController@operationStatusUser')->name('usuarios-op');
 Route::get('/detail-user', 'UserController@getDetailUser')->name('detalle-usuario');
 Route::post('/detail-user', 'UserController@operationUser')->name('actualizar-usuario');
 
