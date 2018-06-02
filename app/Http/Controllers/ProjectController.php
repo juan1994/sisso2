@@ -54,20 +54,13 @@ class ProjectController extends Controller
     {
         $proyectoid = Input::get('proyectoid', 0);
         $proyecto   = DB::select('select  @rownum:=@rownum+1 AS rownum,
-                `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
-            
+                `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));            
         $proyectoAnexo = DB::select('select  @rownum:=@rownum+1 AS rownum, 
                 `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
-
-
         $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
-
-        
         $result = app('App\Http\Controllers\EvaluationItemController')->getCountMatriz($proyectoid);
-        var_dump($result);
         return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
-
     }
 
     /**
@@ -88,7 +81,6 @@ class ProjectController extends Controller
         $date_string = date("Y/m/d h:i");
         // pasar datos a estructura
         $data = request()->all();
-        //var_dump($data);
         //guardar datos    
         if($session_user->status != 0){
             try {
@@ -125,9 +117,14 @@ class ProjectController extends Controller
         $pathfile = Input::get('pathfile', '');
         $name = Input::get('name', 'demo');
         $idproject = Input::get('idproject', 0);
-        $pos = strrpos($pathfile, ".");
-        $ext = substr($pathfile,$pos);
-        return Storage::download($pathfile,  strval($idproject) .'-' . $name . $ext);
+        if(Storage::exists($pathfile)) {
+            $pos = strrpos($pathfile, ".");
+            $ext = substr($pathfile,$pos);
+            return Storage::download($pathfile,  strval($idproject) .'-' . $name . $ext);
+        } else {
+            $session_user = $this->session->getSession();
+            return view('notfoundfile')->with('session', $session_user);
+        }    
     }
       /**
      * Operación sobre el proyecto
