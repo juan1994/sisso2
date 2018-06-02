@@ -32,11 +32,10 @@
     @endforeach
   </tbody>
     </table>
-    <button class="btn btn-success" type="submit">
-        <i class="fa fa-user-plus">
-        </i>
-        Editar Datos
-    </button>
+    @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
+    <button class="btn btn-success" onclick="window.location.href = '/update-project?idproject={{$proyecto[0]->idproyecto}}'; " type="button">
+        <i class="fa fa-user-plus"></i>Editar Datos</button>
+    @endif
     <table class="table table-striped table-white">
         <thead>
             <h1>
@@ -45,7 +44,7 @@
             <tr>
                 <th scope="col">Nombre del documento</th>
                 <th scope="col">Descripcion</th>
-                <th scope="col"></th>
+                <th scope="col">Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -53,13 +52,18 @@
             <tr>
                 <td>{{$row2->NombreAnexo}}</td>
                 <td>{{$row2->Descripcion}}</td>
-            <td><a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">descargar</a></td>
+            <td><a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">Descargar</a>
+            @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
+            <a style="margin-left: 15px" href="#">Eliminar</a></td>
+            @endif
             </tr>
             @endforeach
         </tbody>
     </table>
+@if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
   <button class="btn btn-success" type="submit" onclick="showForm()">
     <i class="fa fa-user-plus"></i>Agregar Anexos</button>
+@endif
 <div id="addfile" class="d-none">
         <h2>Agregar Anexo</h2>
         <form method="POST" enctype="multipart/form-data" action"/detail-project">
@@ -98,7 +102,9 @@
                 <th scope="col">resultado</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Actualizacion</th>
+                @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
                 <th scope="col">Acciones</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -107,6 +113,7 @@
                 <td>{{$row->resultado}}</td>
                 <td>{{$row->fecha}}</td>
                 <td>{{$row->actualizacion}}</td>
+                @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
                 <td>
                     <div class="btn-group">
                     <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
@@ -115,16 +122,19 @@
                             Agregar Calificación</button>
                     </div>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
     </table>
+@if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
 <form method="POST" action"/detail-project">
     {{ csrf_field() }}
     <input type="hidden" name="idproject" value="{{$proyecto[0]->idproyecto}}"/>
     <input type="hidden" name="operation" value="A"/>
     <button class="btn btn-success" type="submit" method="POST"><i class="fa fa-user-plus"></i>Agregar Evaluación</button>
 </form>
+@endif
 <script>
   function showForm(){
     $('#addfile').removeClass('d-none');
@@ -136,10 +146,5 @@ window.onload = function() {
   //$('#addfile').removeClass('d-none');
 };
 </script>
-
-<a href="/update-project?idproject={{$proyecto[0]->idproyecto}}">
-                        Actualizar
-                    </a>
-                </td>
 @stop
 

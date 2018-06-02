@@ -1,13 +1,8 @@
 @extends('layout-default')
 @section('content')
 <!-- Stylesheets -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    </link>
-</link>
-
-<body>
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"></link>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"></link>
     <div class="container">
         <form action="/create-project" class="form-horizontal" method="POST" role="form">
         {{ csrf_field() }}
@@ -303,5 +298,4 @@
             </div>
         </form>
     </div>
-</body>
 @stop
