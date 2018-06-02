@@ -28,7 +28,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-      @if(isset($session->status) && $session->status === 1)
+      @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(1))
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Adm. Usuarios">
           <a class="nav-link" href="{{ route('usuarios') }}">
             <i class="fas fa-users-cog"></i>
@@ -48,7 +48,7 @@
             <span class="nav-link-text">Reportes</span>
           </a>
         </li>
-        @if(isset($session->status) && $session->status === 1)
+        @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(1))
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Solicitud de usuarios">
           <a class="nav-link" href="{{ route('peticion') }}">
             <i class="far fa-flag"></i>

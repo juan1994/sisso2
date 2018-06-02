@@ -53,7 +53,7 @@
             <tr>
                 <td>{{$row2->NombreAnexo}}</td>
                 <td>{{$row2->Descripcion}}</td>
-                <td><a href="/attached?pathfile={{$row2->Ruta}}">descargar</a></td>
+            <td><a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">descargar</a></td>
             </tr>
             @endforeach
         </tbody>

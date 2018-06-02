@@ -112,7 +112,11 @@ class ProjectController extends Controller
     public function getFile(Request $request)
     {
         $pathfile = Input::get('pathfile', '');
-        return Storage::download($pathfile);
+        $name = Input::get('name', 'demo');
+        $idproject = Input::get('idproject', 0);
+        $pos = strrpos($pathfile, ".");
+        $ext = substr($pathfile,$pos);
+        return Storage::download($pathfile,  strval($idproject) .'-' . $name . $ext);
     }
       /**
      * Operación sobre el proyecto
