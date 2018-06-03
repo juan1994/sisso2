@@ -38,4 +38,33 @@ class SessionService
         //$request->session()->forget('key');
         $request->session()->flush();
     }
+    public function validatePermission($idview){
+        $session = self::getSession();
+        switch ($idview) {
+            case 'PRCR':
+                if($session->status != 0 && ($session->rol == '3' || $session->rol == '4')){
+                    return true;
+                }else{
+                    return false;
+                }
+                break;
+            case 'PRUP':
+                if($session->status != 0 && ($session->rol == '3' || $session->rol == '4')){
+                    return true;
+                }else{
+                    return false;
+                }
+                break;
+            case 'EVCR':
+                if($session->status != 0 && ($session->rol == '2')){
+                    return true;
+                }else{
+                    return false;
+                }
+                break;
+            default:
+                return true;
+                break;
+        }
+    }
 }

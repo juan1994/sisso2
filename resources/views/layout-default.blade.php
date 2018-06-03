@@ -19,7 +19,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">  
 </head>
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<body class="fixed-nav sticky-footer bg-dark sidenav-toggled" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="/">Trabajos de Responsabilidad Social</a>
@@ -28,7 +28,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-      @if(isset($session->status) && $session->status === 1)
+      @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(1))
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Adm. Usuarios">
           <a class="nav-link" href="{{ route('usuarios') }}">
             <i class="fas fa-users-cog"></i>
@@ -48,7 +48,7 @@
             <span class="nav-link-text">Reportes</span>
           </a>
         </li>
-        @if(isset($session->status) && $session->status === 1)
+        @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(1))
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Solicitud de usuarios">
           <a class="nav-link" href="{{ route('peticion') }}">
             <i class="far fa-flag"></i>
@@ -112,10 +112,5 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
   </div>
-  <script>
-    window.onload = function() {
-      $('#sidenavToggler').click();
-    }
-  </script>
 </body>
 </html>

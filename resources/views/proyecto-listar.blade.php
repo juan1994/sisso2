@@ -53,14 +53,9 @@
             @endforeach
         </tbody>
     </table>
-
-
-    
-    
-    <button class="btn btn-success" type="submit">
-        <i class="fa fa-user-plus"></i>
-        <a style="text-decoration: none; color: white" href="/register-project">crear proyecto</a>
-
-    </button>
+@if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))    
+    <button class="btn btn-success" onclick="window.location.href = '/register-project' " type="button">
+        <i class="fa fa-user-plus"></i>Crear proyecto</button>
+@endif    
     @stop
 </div>

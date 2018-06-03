@@ -21,14 +21,25 @@ class EvaluationController extends Controller
     {
         $this->session = new SessionService();
     }
-
+    /**
+     * permiss EVCR
+     */
     public function get(Request $request)
     {
+        $session_user = $this->session->getSession();
         $idproject = Input::get('project', 0);
         $numproject = Input::get('idproject', 0);
-        return view('evaluacion-registrar')->with('session', $this->session->getSession())->with('status', 'C')
-        ->with('idproject', $idproject)->with('operation', 'I')
-        ->with('numproject', $numproject);
+        $operation = 'I';
+        if(!$this->session->validatePermission('EVCR')){
+            return redirect()->route('home', []);
+        }
+        $results = DB::select('SELECT iditemrmatriz,fecha,posX,posY,valor,usuario_codigo,evaluacion_idevaluacion,actualizacion FROM matriz where usuario_codigo=? and evaluacion_idevaluacion=? order by posX,posY', array($session_user->code, $idproject));
+        if(count($results) > 0){
+            $operation = 'U';
+        }
+        return view('evaluacion-registrar')->with('session', $session_user)
+        ->with('idproject', $idproject)->with('operation', $operation)
+        ->with('numproject', $numproject)->with('data', $results);
     }
     public function operation(Request $request)
     {
@@ -38,8 +49,6 @@ class EvaluationController extends Controller
         $numproject = Input::get('numproject', 0);
         $username = $session_user->code;
         $date_string = date("Y/m/d h:i");
-        //$input = $request->all();
-        //var_dump($input);
         DB::table('matriz')->where('usuario_codigo', $username)->where('evaluacion_idevaluacion', $idproject)->delete();
         DB::table('matriz')->insert([
             ['valor' => Input::get('campo11', 0), 'posX' => 1, 'posY' => 1, 

@@ -34,7 +34,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()" step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo12" id="campo12">
+                    <input required type="number" onchange="onChange()" step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo12" id="campo12" value="@if(isset($data)&&isset($data[1]->valor)){{round($data[1]->valor,3)}}@endif" />
                 </div>
             </td>
             <td>
@@ -49,7 +49,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo15" id="campo15">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo15" id="campo15"value="@if(isset($data)&&isset($data[4]->valor)){{round($data[4]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -87,7 +87,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo25" id="campo25">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo25" id="campo25"value="@if(isset($data)&&isset($data[11]->valor)){{round($data[11]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -105,12 +105,12 @@
             <th scope="row">Sostenibilidad</th>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo31" id="campo31">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo31" id="campo31"value="@if(isset($data)&&isset($data[14]->valor)){{round($data[14]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo32" id="campo32">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo32" id="campo32" value="@if(isset($data)&&isset($data[15]->valor)){{round($data[15]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -120,7 +120,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo34" id="campo34">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo34" id="campo34" value="@if(isset($data)&&isset($data[17]->valor)){{round($data[17]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -143,12 +143,12 @@
             <th scope="row">Tecnologias</th>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo41" id="campo41">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo41" id="campo41" value="@if(isset($data)&&isset($data[21]->valor)){{round($data[21]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo42" id="campo42">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo42" id="campo42" value="@if(isset($data)&&isset($data[22]->valor)){{round($data[22]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -168,12 +168,12 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo46" id="campo46">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo46" id="campo46" value="@if(isset($data)&&isset($data[26]->valor)){{round($data[26]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo47" id="campo47">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo47" id="campo47" value="@if(isset($data)&&isset($data[27]->valor)){{round($data[27]->valor,3)}}@endif" >
                 </div>
             </td>
             </tr>
@@ -191,12 +191,12 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo53" id="campo53">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo53" id="campo53" value="@if(isset($data)&&isset($data[30]->valor)){{round($data[30]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo54" id="campo54">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo54" id="campo54" value="@if(isset($data)&&isset($data[31]->valor)){{round($data[31]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -206,7 +206,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo56" id="campo56">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo56" id="campo56" value="@if(isset($data)&&isset($data[33]->valor)){{round($data[33]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -219,17 +219,17 @@
             <th scope="row">Número de Personas</th>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo61" id="campo61">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo61" id="campo61" value="@if(isset($data)&&isset($data[35]->valor)){{round($data[35]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo62" id="campo62">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo62" id="campo62" value="@if(isset($data)&&isset($data[36]->valor)){{round($data[36]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo63" id="campo63">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo63" id="campo63" value="@if(isset($data)&&isset($data[37]->valor)){{round($data[37]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -249,7 +249,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo67" id="campo67">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo67" id="campo67" value="@if(isset($data)&&isset($data[41]->valor)){{round($data[41]->valor,3)}}@endif" >
                 </div>
             </td>
             </tr>
@@ -257,17 +257,17 @@
             <th scope="row">Participación de la Comunidad</th>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo71" id="campo71">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo71" id="campo71" value="@if(isset($data)&&isset($data[42]->valor)){{round($data[42]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo72" id="campo72">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo72" id="campo72" value="@if(isset($data)&&isset($data[43]->valor)){{round($data[43]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo73" id="campo73">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo73" id="campo73" value="@if(isset($data)&&isset($data[44]->valor)){{round($data[44]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>
@@ -277,7 +277,7 @@
             </td>
             <td>
                 <div class="input-group mb-3">
-                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo75" id="campo75">
+                    <input required type="number" onchange="onChange()"  step=".001" min="0" max="10" class="form-control w-default" style="width: 100px;" name="campo75" id="campo75" value="@if(isset($data)&&isset($data[46]->valor)){{round($data[46]->valor,3)}}@endif" >
                 </div>
             </td>
             <td>

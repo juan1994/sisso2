@@ -36,7 +36,6 @@ class UserController extends Controller
         $data_session = $this->session->getSession();
         $userid = Input::get('userid', 0);
         $cview = Input::get('view', '');
-        var_dump($cview);
         if($data_session->status !== 1){
             return redirect('/');
         }elseif(intval($data_session->code) !== intval($userid) && $data_session->rol !== 1){
@@ -56,6 +55,23 @@ class UserController extends Controller
             ->update(['nombres' => $input["nombres"], 'apellidos' => $input["apellidos"], 
             'celular' => $input["celular"]]);
         return redirect()->route('detalle-usuario', ['userid' => $input["codigo"],'view' => 'UUA']);
+    }
+    public function operationStatusUser(){
+        $input = Input::all();
+        $new_status = '';
+        if($input["action"] == 'A'){
+            $new_status = 'I';
+        }elseif($input["action"] == 'I'){
+            $new_status = 'A';
+        }
+        if($new_status != ''){
+        DB::table('usuario')
+            ->where('codigo', $input["code-user"])
+            ->update([
+                'estado' => $new_status
+            ]);
+        }
+        return redirect()->route('usuarios', []);
     }
 
 }
