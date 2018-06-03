@@ -132,7 +132,17 @@
         <tbody>
             @foreach ($proyectoEvaluacion as $row)
             <tr>
-                <td>{{$row->resultado}}</td>
+                <td>
+                    @if($row->resultado > 0 && $row->resultado <= 40)
+                    <span class="text-danger">IMPACTO BAJO</span>
+                    @elseif($row->resultado > 41 && $row->resultado <= 60)
+                    <span class="text-warning">IMPACTO MEDIO</span>
+                    @elseif($row->resultado > 61 && $row->resultado <= 100)
+                    <span class="text-success"> IMPACTO ALTO</span>
+                    @else
+                    Sin Información
+                    @endif
+                </td>
                 <td>{{$row->fecha}}</td>
                 <td>{{$row->actualizacion}}</td>
                 @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
