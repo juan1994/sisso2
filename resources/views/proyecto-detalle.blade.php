@@ -8,9 +8,16 @@
       <th scope="col">Id Proyecto</th>
       <th scope="col">Nombre Del Proyecto</th>
       <th scope="col">Fecha De Inicio</th>
+      <th scope="col">Fecha De Registro</th>
+      <th scope="col">Presuesto</th>
+      <th scope="col">Problacion Beneficiada</th>
+      <th scope="col">Nombre de Resposanble</th>
       <th scope="col">Descripcion</th>
+      <th scope="col">Obejetivo General</th>
       <th scope="col">Tipo de modalidad</th>
       <th scope="col">Estado Del Proyecto</th>
+
+      
     </tr>
   </thead>
   <tbody>
@@ -19,8 +26,20 @@
       <td> @php echo $row->idproyecto; @endphp </td>
       <td> @php echo $row->nombreProyecto; @endphp </td>
       <td> @php echo $row->fechaInicio; @endphp </td>
+      <td> @php echo $row->fechaRegistro; @endphp </td>
+      <td> @php echo $row->presuesto; @endphp </td>
+      <td> @php echo $row->problacionBeneficiada; @endphp </td>
+      <td> @php echo $row->nombreResponsable; @endphp </td>
       <td> @php echo $row->descripcion; @endphp </td>
-      <td> @php echo $row->tipoModalidad_idtipoModalidad; @endphp </td>
+      <td> @php echo $row->objetivoGeneral; @endphp </td>
+      
+      <td> 
+        @if ($row->tipoModalidad_idtipoModalidad ===  1)
+          Trabajo de grado
+        @elseif ($row->tipoModalidad_idtipoModalidad === 2)
+            Informatica Social
+        @endif
+      </td>
       <td> 
         @if ($row->EstadoProyecto ===  '0')
           Activo
