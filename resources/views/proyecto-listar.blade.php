@@ -39,10 +39,13 @@
                 <td>
                     @php echo $row->descripcion; @endphp
                 </td>
-                <td>
-                    @php echo $row->tipoModalidad_idtipoModalidad; @endphp
-                </td>
-                <td>
+                <td> 
+        @if ($row->tipoModalidad_idtipoModalidad ===  1)
+          Trabajo de grado
+        @elseif ($row->tipoModalidad_idtipoModalidad === 2)
+            Informatica Social
+        @endif
+      </td><td>
                     @if ($row->EstadoProyecto ===  '0')
           Activo
         @elseif ($row->EstadoProyecto === '1')

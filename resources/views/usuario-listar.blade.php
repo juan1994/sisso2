@@ -46,7 +46,9 @@
                     @elseif ($row->tipo_idTipo === 2)
                         Docente
                     @elseif ($row->tipo_idTipo === 3)
-                        Estudiante   
+                        Estudiante    
+                    @elseif ($row->tipo_idTipo === 4        )
+                        Egresado
                     @endif
                 </td>
                 <td>
