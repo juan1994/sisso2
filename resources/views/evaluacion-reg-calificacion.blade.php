@@ -178,7 +178,8 @@
         <span>Opción no permitida, no se cumple con los requisitos establecidos</span>
       </div>
       <div class="modal-footer">
-        <a href="{{ route('home') }}"><button type="button" class="btn btn-primary">Aceptar</button></a>
+        <button class="btn btn-primary" onclick="window.location.href = '/detail-project?proyectoid={{$numproject}}'; " type="button">
+            Aceptar</button>
       </div>
     </div>
   </div>

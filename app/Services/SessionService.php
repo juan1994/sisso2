@@ -55,6 +55,13 @@ class SessionService
                     return false;
                 }
                 break;
+            case 'EVCR':
+                if($session->status != 0 && ($session->rol == '2')){
+                    return true;
+                }else{
+                    return false;
+                }
+                break;
             default:
                 return true;
                 break;
