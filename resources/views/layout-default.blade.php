@@ -19,7 +19,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">  
 </head>
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<body class="fixed-nav sticky-footer bg-dark sidenav-toggled" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="/">Trabajos de Responsabilidad Social</a>
@@ -112,10 +112,5 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
   </div>
-  <script>
-    window.onload = function() {
-      $('#sidenavToggler').click();
-    }
-  </script>
 </body>
 </html>

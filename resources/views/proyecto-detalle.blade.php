@@ -1,5 +1,8 @@
 @extends('layout-default')
 @section('content')
+<div>
+    <button class="btn btn-link" onclick="window.location.href = '/projects' " type="button">Volver</button>
+</div>
 <div class="table-responsive">  
  <table class="table table-striped table-white">
 	<thead>
