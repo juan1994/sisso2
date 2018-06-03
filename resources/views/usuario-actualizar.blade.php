@@ -4,6 +4,14 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"></link>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"></link>
 <div class="container" style="margin: 0">
+    @if($session->rol == 1)
+        <div class="row" style="margin-bottom: 5px;">
+        <div class="col-md-12" style="padding: 0">
+            <button class="btn btn-link" onclick="window.location.href = '/users' " type="button">Volver</button>
+        </div>
+        </div>
+    @endif
+        @if($session->code == $usuario->codigo)
         <div class="row" style="margin-bottom: 20px;">
                 <div class="col-md-12">
                         <button id="modificar" onclick="activate()" class="btn btn-success" type="button">
@@ -11,6 +19,7 @@
                         </div>
                 </div>
             </div>
+        @endif
         <form action="/detail-user" class="form-horizontal" method="POST" role="form">
         {{ csrf_field() }}
             <div class="row">
@@ -234,43 +243,28 @@
             </div>
         </div>
             <div class="row">
-                <div class="col-md-8 col-offset-md-2">
-                    @if(array_key_exists('exist_user', $errors))
-                        <div class="alert alert-warning" role="alert">
-                            <strong>{{$errors['exist_user']}}</strong>
+                <div id="msg" class="col-md-8 col-offset-md-2">
+                    @if(array_key_exists('password_user', $errors))
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{$errors['password_user']}}</strong>
+                        </div>  
+                    @endif
+                    @if(array_key_exists('user', $results))
+                        <div class="alert alert-success" role="alert">
+                            <strong>{{$results['user']}}</strong>
                         </div>  
                     @endif
                 </div>
-                <div id="ok-user" class="col-md-8 col-offset-md-2">
-                        @if(isset($cview) && $cview === 'UUA')
-                            <div class="alert alert-success" role="alert">
-                                Usuario actualizado
-                            </div>  
-                        @endif
-                    </div>
                 <div class="col-md-6 col-offset-md-2">
                     <button id="submit-reg" class="btn btn-success d-none" type="submit">
                         <i class="fa fa-user-plus"></i>Actualizar</button>
                         <button id="submit-cancel" onclick="cancel()" class="btn btn-default d-none" type="button">
                             Cancelar</button>
-                    </div>
-                    <button id="atras" onclick="back()" class="btn btn-success" type="button">
-                        <a href="javascript:window.history.go(-1);"><font color=white>atras</font></a></button>
-                        </div>  
-
-                       
+                    </div>  
             </div>
             
         </form>
-    </div>
-<script>
-    function back()
-    {
-
-    return view('usuario-listar')->with('session', $this->session->getSession());
-
-   }  
-</script>   
+    </div> 
 <script>
   
 function validate(){
@@ -291,6 +285,7 @@ function validate(){
           $('#submit-cancel').removeClass('d-none');
           $('#modificar').addClass('d-none');
           $('#ok-user').addClass('d-none');
+          $('#msg').addClass('d-none');
 
           $("#nombres").attr("readonly", false); 
           $("#apellidos").attr("readonly", false); 
