@@ -54,4 +54,6 @@ Route::post('/detail-project', 'ProjectController@operation')->name('archivo-cre
 
 Route::resource('user-code', 'UserController',
                 ['only' => ['show']]);
+Route::resource('report/qualities', 'ReportController',
+                ['only' => ['index']]);
 
