@@ -109,7 +109,7 @@
                             <div class="input-group-addon" style="width: 2.6rem">
                                 <i class="fa fa-money" style="font-size:22px"></i>
                             </div>
-                            <input autofocus="" class="form-control" id="Presupuesto" name="Presupuesto" placeholder="$3000000" required="" type="text">
+                            <input autofocus="" class="form-control quantity" id="Presupuesto" name="Presupuesto" placeholder="$3000000" required="" type="text">
                             </input>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                             <div class="input-group-addon" style="width: 2.6rem">
                                 <i class="fa fa-users"></i>
                             </div>
-                            <input autofocus="" class="form-control" id="PoblacionBeneficiada" name="PoblacionBeneficiada" placeholder="100" required="" type="text"></input>
+                            <input autofocus="" class="form-control quantity" id="PoblacionBeneficiada" name="PoblacionBeneficiada" placeholder="100" required="" type="text"></input>
                         </div>
                     </div>
                 </div>
@@ -248,6 +248,62 @@
                 </div>
             </div>
             <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="email">Segundo Integrante</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon" style="width: 2.6rem">
+                                    <i class="fa fa-user-o"></i>
+                                </div>
+                                <input autofocus="" minlength="5" maxlength="10" onchange="validate('1')" class="form-control quantity" id="segundo-integrante" name="segundo-integrante" type="text">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                            <div id="msg-user1" class="form-control-feedback d-none">
+                                    <span class="text-danger align-middle">
+                                        El usuario no existe.
+                                    </span>
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="email">Tercer Integrante</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon" style="width: 2.6rem">
+                                    <i class="fa fa-user-o"></i>
+                                </div>
+                                <input autofocus="" minlength="5" maxlength="10" onchange="validate('2')" class="form-control quantity" id="tercer-integrante" name="tercer-integrante" type="text">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                            <div id="msg-tintegrante" class="form-control-feedback d-none">
+                                <span class="text-danger align-middle">
+                                    Es requerido completar el campo Segundo integrante.
+                                </span>
+                            </div>
+                            <div id="msg-user-equal" class="form-control-feedback d-none">
+                                <span class="text-danger align-middle">
+                                    Uno de los usuarios esta más de una vez.
+                                </span>
+                            </div>
+                            <div id="msg-user2" class="form-control-feedback d-none">
+                                    <span class="text-danger align-middle">
+                                        El usuario no existe.
+                                    </span>
+                            </div>
+                    </div>
+                </div>
+            <div class="row">
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
@@ -257,7 +313,7 @@
                         Cancelar
                     </button>
                     </a>
-                    <button class="btn btn-success" type="submit">
+                    <button id="submit-button" class="btn btn-success" type="submit">
                         <i class="fa fa-user-plus"></i>
                         Enviar
                     </button>
@@ -269,5 +325,59 @@
             </div>
         </form>
     </div>
+<script>
+    function validate(parm){
+        if(parm == 1 && $('#segundo-integrante').val().length > 0){
+            $.get( "/user-code/" + $('#segundo-integrante').val())
+            .done(function( data ) {
+                console.log(data);
+                if(data.status == 0){
+                    $('#msg-user1').removeClass('d-none');
+                }else{
+                    $('#msg-user1').addClass('d-none');
+                }
+            });
+        }else if(parm == 2 && $('#tercer-integrante').val().length > 0){
+            $.get( "/user-code/" + $('#tercer-integrante').val())
+            .done(function( data ) {
+                if(data.status == 0){
+                    $('#msg-user2').removeClass('d-none');
+                }else{
+                    $('#msg-user2').addClass('d-none');
+                }
+            });
+        }
+        check();
+    }
+    function check(){
+        if($('#tercer-integrante').val().length > 0 && $('#segundo-integrante').val().length == 0){
+            $('#msg-tintegrante').removeClass('d-none');
+            $("#submit-button").attr("disabled", true); 
+        }else{
+            $('#msg-tintegrante').addClass('d-none');
+            $("#submit-button").attr("disabled", false); 
+        }
+        if(($('#tercer-integrante').val().length > 0 && $('#segundo-integrante').val().length > 0
+        && $('#tercer-integrante').val() == $('#segundo-integrante').val())
+        || ($('#tercer-integrante').val() == "{{$session->code}}" 
+            || $('#segundo-integrante').val() == "{{$session->code}}") ){
+            $('#msg-user-equal').removeClass('d-none');
+            $("#submit-button").attr("disabled", true); 
+        }else{
+            $('#msg-user-equal').addClass('d-none');
+            $("#submit-button").attr("disabled", false); 
+        }
+    }
+
+    window.onload = function() {
+        $(".quantity").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                return false;
+            }
+        });
+    };
+</script>
 </body>
 @stop

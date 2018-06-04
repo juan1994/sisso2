@@ -52,3 +52,6 @@ Route::post('/requests', 'AuthController@createUserTemp')->name('peticion-p');
 Route::get('/attached', 'ProjectController@getFile')->name('archivo-mostrar');
 Route::post('/detail-project', 'ProjectController@operation')->name('archivo-crear');
 
+Route::resource('user-code', 'UserController',
+                ['only' => ['show']]);
+

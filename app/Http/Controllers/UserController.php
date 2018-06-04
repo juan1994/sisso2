@@ -22,6 +22,16 @@ class UserController extends Controller
     {
         $this->session = new SessionService();
     }
+    /**
+     * comprobar usuario
+     */
+    public function show($id)
+    {
+        $usuario = DB::select("select  count(*) as status from usuario where codigo=? and estado ='A' ", array($id));
+        return response()->json([
+            'status' => $usuario[0]->status
+        ]);
+    }
 
     public function get()
     {

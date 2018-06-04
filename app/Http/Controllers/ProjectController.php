@@ -101,7 +101,8 @@ class ProjectController extends Controller
         $data = request()->all();
         //guardar datos    
         if($session_user->status != 0){
-            try {
+            DB::transaction(function()
+            use ($data, $date_string, $session_user){
                 $idProject = DB::table('proyecto')->insertGetId(
                     ['nombreProyecto' => $data['NombreProyecto'], 'fechaRegistro' => $date_string, 
                     'fechaInicio' => $data['FechaInicio'], 'fechaFinalizacion' => $data['FechaFinalizacion'], 'presuesto' => $data['Presupuesto'], 
@@ -110,9 +111,15 @@ class ProjectController extends Controller
                     'tipoModalidad_idtipoModalidad' => $data['TipoModalidad'],'EstadoProyecto' => 0 ]);
                 $res = DB::table('usuario_has_proyecto')->insert(
                     ['usuario_codigo' => $session_user->code, 'protecto_idprotecto' => $idProject]);
-            } catch (PDOException $e) {
-                dd($e);
-            }
+                if(strlen($data['segundo-integrante']) > 0){
+                    $res = DB::table('usuario_has_proyecto')->insert(
+                        ['usuario_codigo' => $data['segundo-integrante'], 'protecto_idprotecto' => $idProject]);
+                }
+                if(strlen($data['tercer-integrante']) > 0){
+                    $res = DB::table('usuario_has_proyecto')->insert(
+                        ['usuario_codigo' => $data['tercer-integrante'], 'protecto_idprotecto' => $idProject]);
+                }
+            });
             return redirect()->route('proyecto', []);
         }else{
             return view('proyecto-registrar')->with('session', $session_user);
