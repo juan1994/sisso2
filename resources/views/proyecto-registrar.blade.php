@@ -328,26 +328,37 @@
 <script>
     function validate(parm){
         if(parm == 1 && $('#segundo-integrante').val().length > 0){
+            $("#submit-button").attr("disabled", true); 
             $.get( "/user-code/" + $('#segundo-integrante').val())
             .done(function( data ) {
-                console.log(data);
                 if(data.status == 0){
                     $('#msg-user1').removeClass('d-none');
                 }else{
                     $('#msg-user1').addClass('d-none');
+                    $("#submit-button").attr("disabled", false); 
+                    check();
                 }
             });
         }else if(parm == 2 && $('#tercer-integrante').val().length > 0){
+            $("#submit-button").attr("disabled", true); 
             $.get( "/user-code/" + $('#tercer-integrante').val())
             .done(function( data ) {
                 if(data.status == 0){
                     $('#msg-user2').removeClass('d-none');
                 }else{
                     $('#msg-user2').addClass('d-none');
+                    $("#submit-button").attr("disabled", false); 
+                    check();
                 }
             });
+        }else{
+            if(parm == 1){
+                $('#msg-user1').addClass('d-none');
+            }else if(parm == 2){
+                $('#msg-user2').addClass('d-none');
+            }
+            check();
         }
-        check();
     }
     function check(){
         if($('#tercer-integrante').val().length > 0 && $('#segundo-integrante').val().length == 0){
