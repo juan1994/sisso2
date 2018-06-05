@@ -74,15 +74,26 @@
             <tr>
                 <td>{{$row2->NombreAnexo}}</td>
                 <td>{{$row2->Descripcion}}</td>
-            <td><a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">Descargar</a>
-            @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
-            <a style="margin-left: 15px" href="#">Eliminar</a></td>
+            <td>
+            @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4))
+                && intval($permiss_edit) == 1)
+            <form method="POST" action"/detail-project">
+                {{ csrf_field() }}
+                <input type="hidden" name="idanexo" value="{{$row2->idAnexo}}"/>
+                <input type="hidden" name="idproject" value="{{$proyecto[0]->idproyecto}}"/>
+                <input type="hidden" name="operation" value="D"/>
+                <a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">Descargar</a>
+                <button class="btn btn-link" type="submit" method="POST">Eliminar</button>
+            </form>
+            @else
+            <a href="/attached?pathfile={{$row2->Ruta}}&name={{$row2->NombreAnexo}}&idproject={{$proyecto[0]->idproyecto}}">Descargar</a>
             @endif
+            </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-@if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
+@if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)) && intval($permiss_edit) == 1)
   <button class="btn btn-success" type="submit" onclick="showForm()">
     <i class="fa fa-user-plus"></i>Agregar Anexos</button>
 @endif

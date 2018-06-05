@@ -70,15 +70,21 @@ class ProjectController extends Controller
 
     public function getDetailProject()
     {
+        $session_user = $this->session->getSession();
+        $permiss_edit = 0;
         $proyectoid = Input::get('proyectoid', 0);
         $proyecto   = DB::select('select
                 `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
-        $proyectoAnexo = DB::select('select
-                `NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
+        $proyectoAnexo = DB::select('select `idAnexo`,`NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
         $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
         $result = app('App\Http\Controllers\EvaluationItemController')->getCountMatriz($proyectoid);
-        return view('proyecto-detalle')->with('session', $this->session->getSession())->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion);
+        /**Permisos sobre le proyecto */
+        if($session_user->status != 0){
+            $users_project = DB::select('SELECT count(*) as permiss FROM usuario_has_proyecto where protecto_idprotecto=? and usuario_codigo=?', array($proyectoid, $session_user->code));
+            $permiss_edit = $users_project[0]->permiss;
+        }
+        return view('proyecto-detalle')->with('session', $session_user)->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion)->with('permiss_edit', $permiss_edit);
     }
 
     /**
@@ -183,6 +189,8 @@ class ProjectController extends Controller
             DB::table('evaluacion')->insert(
                 ['resultado' => 0, 'proyecto_idproyecto' => $idproject, 
                 'fecha' => $date_string, 'actualizacion' => $date_string]);
+        }elseif($operation == 'D'){
+            DB::table('anexo')->where('idAnexo', Input::get('idanexo', 0))->delete();
         }
         return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
