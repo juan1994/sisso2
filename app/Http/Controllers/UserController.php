@@ -108,7 +108,7 @@ class UserController extends Controller
         $new_status = '';
         if($input["action"] == 'A'){
             $new_status = 'I';
-        }elseif($input["action"] == 'I'){
+        }elseif($input["action"] == 'I' || $input["action"] == 'B'){
             $new_status = 'A';
         }
         if($new_status != ''){
