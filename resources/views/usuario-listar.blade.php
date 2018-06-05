@@ -56,6 +56,8 @@
                         activo
                     @elseif ($row->estado === 'I')
                         Inactivo
+                    @elseif ($row->estado === 'B')
+                        Bloqueado
                     @endif
                 </td>
                 @if($row->codigo !== $session->code)
@@ -64,7 +66,7 @@
                         <button class="btn btn-default" onclick="action({{$row->codigo}},'{{$row->estado}}')" type="button">
                             @if ($row->estado ===  'A')
                                 Inactivar
-                            @elseif ($row->estado === 'I')
+                            @elseif ($row->estado === 'I' || $row->estado === 'B')
                                 activar
                             @endif
                         </button>
