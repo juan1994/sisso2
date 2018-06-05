@@ -1,8 +1,11 @@
 @extends('layout-default')
 @section('content')
-<div>
-    <button class="btn btn-link" onclick="window.location.href = '/projects' " type="button">Volver</button>
-</div>
+<a href="{{ route('proyecto') }}">
+                    <button class="btn btn-warning" type="button">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Cancelar
+                    </button>
+                    </a>
 <div class="table-responsive">  
  <table class="table table-striped table-white">
 	<thead>

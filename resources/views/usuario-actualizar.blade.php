@@ -5,11 +5,12 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"></link>
 <div class="container" style="margin: 0">
     @if($session->rol == 1)
-        <div class="row" style="margin-bottom: 5px;">
-        <div class="col-md-12" style="padding: 0">
-            <button class="btn btn-link" onclick="window.location.href = '/users' " type="button">Volver</button>
-        </div>
-        </div>
+        <a href="{{ route('usuarios') }}">
+                    <button class="btn btn-warning" type="button">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Cancelar
+                    </button>
+                    </a>
     @endif
         @if($session->code == $usuario->codigo)
         <div class="row" style="margin-bottom: 20px;">
