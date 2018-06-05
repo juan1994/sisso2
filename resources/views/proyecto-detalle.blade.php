@@ -57,7 +57,7 @@
     @endforeach
   </tbody>
     </table>
-    @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)))
+    @if(isset($session->status) && $session->status === 1 && (intval($session->rol) == intval(3) || intval($session->rol) == intval(4)) && intval($permiss_edit) == 1)
     <button class="btn btn-success" onclick="window.location.href = '/update-project?idproject={{$proyecto[0]->idproyecto}}'; " type="button">
         <i class="fa fa-user-plus"></i>Editar Datos</button>
     @endif
