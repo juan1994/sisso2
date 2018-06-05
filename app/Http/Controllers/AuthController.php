@@ -110,14 +110,14 @@ class AuthController extends Controller
         if($action == 'A'){
             DB::transaction(function () {
                 $id = Input::get('id', 0);
-                $usuario = DB::select("select  `usuario_temporal`.`codigo`,`usuario_temporal`.`nombres`,`usuario_temporal`.`apellidos`,`usuario_temporal`.`tel`,`usuario_temporal`.`correo`,`usuario_temporal`.`tipo`,'A',`usuario_temporal`.`password` FROM mydb.usuario_temporal where status=1 and id=?", array($id));
+                $usuario = DB::select("select  `usuario_temporal`.`codigo`,`usuario_temporal`.`nombres`,`usuario_temporal`.`apellidos`,`usuario_temporal`.`tel`,`usuario_temporal`.`correo`,`usuario_temporal`.`tipo`,'A',`usuario_temporal`.`password` FROM sisso.usuario_temporal where status=1 and id=?", array($id));
                 DB::table('usuario')->insert(
                     ['codigo' => $usuario[0]->codigo, 'nombres' => $usuario[0]->nombres, 
                     'apellidos' => $usuario[0]->apellidos, 'celular' => $usuario[0]->tel, 'correo' => $usuario[0]->correo, 'tipo_idTipo' => $usuario[0]->tipo, 'estado' => 'A', 'password' => $usuario[0]->password]
                 );
                 DB::table('usuario_temporal')
                 ->where('id', $id)
-                ->update(['status' => 0, password => '']);
+                ->update(['status' => 0, 'password' => '']);
                 $message = "El usuario " . $usuario[0]->correo . " ha sido creado por el administrador";
                 $title = "Creación de usuario";
                 $content = $message;
@@ -139,7 +139,7 @@ class AuthController extends Controller
         ->with('usuarioTemporal', $usuarioTemporal);
     }
     private function getListUserTemp(){
-        $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum, `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM mydb.usuario_temporal where status=1 ');
+        $usuarioTemporal = DB::select('select  @rownum:=@rownum+1 AS rownum, `id`, `correo`, `nombres`, `apellidos`, `tel`, `codigo`, `password`, `tipo`, `created`, `status` FROM sisso.usuario_temporal where status=1 ');
         return $usuarioTemporal;
     }
 

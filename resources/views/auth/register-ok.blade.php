@@ -8,9 +8,8 @@
 <button class="btn btn-success" href="/login" type="submit">
         <i class="far fa-arrow-alt-circle-left">
         </i>
-        <a href="/login">
-            regresar
-        </a>
+       
+        <a href="/login"><font color=white>regresar</font></a>
     </button>
     
 

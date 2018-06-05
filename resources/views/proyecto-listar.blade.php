@@ -4,13 +4,13 @@
     <table class="table table-striped table-white">
         <thead>
             <tr>
-                <th scope="col">
+                <th scope="col" >
                     Id Proyecto
                 </th>
-                <th scope="col">
+                <th scope="col" >
                     Nombre Del Proyecto
                 </th>
-                <th scope="col">
+                <th >
                     Fecha De Inicio
                 </th>
                 <th scope="col">
