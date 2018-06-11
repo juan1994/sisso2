@@ -1,5 +1,8 @@
 @extends('layout-default')
 @section('content')
+<div class="conatiner">
+<div class="row">
+  <div class="col-md-12">
 <div>
     <button class="btn btn-link" onclick="window.location.href = '/projects' " type="button">Volver</button>
 </div>
@@ -19,8 +22,6 @@
       <th scope="col">Obejetivo General</th>
       <th scope="col">Tipo de modalidad</th>
       <th scope="col">Estado Del Proyecto</th>
-
-
     </tr>
   </thead>
   <tbody>
@@ -35,7 +36,6 @@
       <td> @php echo $row->nombreResponsable; @endphp </td>
       <td> @php echo $row->descripcion; @endphp </td>
       <td> @php echo $row->objetivoGeneral; @endphp </td>
-
       <td>
         @if ($row->tipoModalidad_idtipoModalidad ===  1)
           Trabajo de grado
@@ -144,11 +144,11 @@
             @foreach ($proyectoEvaluacion as $row)
             <tr>
                 <td>
-                    @if($row->resultado > 0 && $row->resultado <= 40)
+                    @if(floatval($row->resultado) > 0 && floatval($row->resultado) <= 40)
                     <span class="text-danger">IMPACTO BAJO</span>
-                    @elseif($row->resultado > 41 && $row->resultado <= 60)
+                  @elseif(floatval($row->resultado) > 40 && floatval($row->resultado) <= 60)
                     <span class="text-warning">IMPACTO MEDIO</span>
-                    @elseif($row->resultado > 61 && $row->resultado <= 100)
+                  @elseif(floatval($row->resultado) > 60 && floatval($row->resultado) <= 100)
                     <span class="text-success"> IMPACTO ALTO</span>
                     @else
                     Sin Información
@@ -156,16 +156,19 @@
                 </td>
                 <td>{{$row->fecha}}</td>
                 <td>{{$row->actualizacion}}</td>
-                @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
+
                 <td>
                     <div class="btn-group">
+                      <button class="btn btn-default" onclick="callInfo('{{$row->idevaluacion}}');" type="button">
+                              Detalle</button>
+                    @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
                     <button class="btn btn-default" {{count($row->count_matriz) >= 3 ? 'disabled':''}} onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Matriz</button>
                         <button class="btn btn-default" {{(count($row->count_matriz) < 3 || !$row->permiss_m || count($row->count_evaluation) >= 3) ?'disabled':''}} onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Calificación</button>
                     </div>
+                    @endif
                 </td>
-                @endif
             </tr>
             @endforeach
         </tbody>
@@ -178,35 +181,81 @@
     <button class="btn btn-success" {{!$evaluation_done ? 'disabled':''}} type="{{$evaluation_done ?'submit':'button'}}"><i class="fa fa-user-plus"></i>Agregar Evaluación</button>
 </form>
 @endif
+<!-- end col-md-12-->
+</div>
+<!-- end row-->
+</div>
+<!-- end container-->
+</div>
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false"  data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Detalle Evaluación</h5>
+        <h5 class="modal-title">Detalle Evaluación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
-        {{ csrf_field() }}
+        <p class="font-weight-bold">Matriz</p>
         <table class="table">
-          <thead style="width: 100px;">
-              <tr>
-              <th scope="col">Criterio</th>
-              <th scope="col">Peso Indicador</th>
-              <th scope="col">Valor</th>
-              </tr>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Fecha</th>
+            </tr>
           </thead>
-          <tbody style="width: 50px;">
-              <tr>
-                <th scope="row">Eficacia</th>
-                <td></td>
-                <td></td>
-              </tr>
-          </tbody
+          <tbody>
+            <tr>
+              <th scope="col">1</th>
+              <td id="m-user1">Sin usuario</td>
+              <td id="m-date1"></td>
+            </tr>
+            <tr>
+              <th scope="col">2</th>
+              <td id="m-user2">Sin usuario</td>
+              <td id="m-date2"></td>
+            </tr>
+            <tr>
+              <th scope="col">3</th>
+              <td id="m-user3">Sin usuario</td>
+              <td id="m-date3"></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="font-weight-bold">Calificación</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="col">1</th>
+              <td id="c-user1">Sin usuario</td>
+              <td id="c-date1"></td>
+            </tr>
+            <tr>
+              <th scope="col">2</th>
+              <td id="c-user2">Sin usuario</td>
+              <td id="c-date2"></td>
+            </tr>
+            <tr>
+              <th scope="col">3</th>
+              <td id="c-user3">Sin usuario</td>
+              <td id="c-date3"></td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="$('#exampleModal').modal('dismiss')" type="button">
-            Aceptar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
       </div>
     </div>
   </div>
@@ -218,8 +267,53 @@
   function hideForm(){
     $('#addfile').addClass('d-none');
   }
+  function callInfo(ideval){
+    resetDisplay();
+    $.get( "/evaluation-info/" + ideval)
+    .done(function( data ) {
+        if(data.length >=1 ){
+          $('#m-user1').html(data[0].usuario_codigo + ' - ' + data[0].name);
+          $('#m-date1').html(data[0].act_matriz);
+        }
+        if(data.length >=2 ){
+          $('#m-user2').html(data[1].usuario_codigo + ' - ' + data[1].name);
+          $('#m-date2').html(data[1].act_matriz);
+        }
+        if(data.length >=3 ){
+          $('#m-user3').html(data[2].usuario_codigo + ' - ' + data[2].name);
+          $('#m-date3').html(data[2].act_matriz);
+        }
+        if(data.length >=1 ){
+          $('#c-user1').html(data[0].usuario_codigo + ' - ' + data[0].name);
+          $('#c-date1').html(data[0].act_eval);
+        }
+        if(data.length >=2 ){
+          $('#c-user2').html(data[1].usuario_codigo + ' - ' + data[1].name);
+          $('#c-date2').html(data[1].act_eval);
+        }
+        if(data.length >=3 ){
+          $('#c-user3').html(data[2].usuario_codigo + ' - ' + data[2].name);
+          $('#c-date3').html(data[2].act_eval);
+        }
+        $('#exampleModal').modal('show');
+    });
+  }
+  function resetDisplay(){
+    $('#m-user1').html('Sin usuario');
+    $('#m-date1').html('');
+    $('#m-user2').html('Sin usuario');
+    $('#m-date2').html('');
+    $('#m-user3').html('Sin usuario');
+    $('#m-date3').html('');
+    $('#c-user1').html('Sin usuario');
+    $('#c-date1').html('');
+    $('#c-user2').html('Sin usuario');
+    $('#c-date2').html('');
+    $('#c-user3').html('Sin usuario');
+    $('#c-date3').html('');
+  }
 window.onload = function() {
-    //$('#exampleModal').modal('show')
+    //callInfo("5");
 };
 </script>
 @stop

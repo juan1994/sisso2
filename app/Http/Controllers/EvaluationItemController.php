@@ -185,6 +185,6 @@ class EvaluationItemController extends Controller
         }
         DB::table('evaluacion')
             ->where('idevaluacion', $idproject)
-            ->update(['resultado' => $total]);
+            ->update(['resultado' => $total, 'actualizacion' => date("Y/m/d h:i")]);
     }
 }
