@@ -67,11 +67,11 @@ class ProjectController extends Controller
             ]);
         return redirect()->route('detalle-proyecto', ['proyectoid' => $input["idproject"]]);
     }
-
     public function getDetailProject()
     {
         $session_user = $this->session->getSession();
         $permiss_edit = 0;
+        $evaluation_done = true;
         $proyectoid = Input::get('proyectoid', 0);
         $proyecto   = DB::select('select
                 `idproyecto`,`nombreProyecto`,`fechaRegistro`,`fechaInicio`,`fechaFinalizacion`,`presuesto`,`problacionBeneficiada`,`nombreResponsable`,`descripcion`,`objetivoGeneral`,`tipoModalidad_idtipoModalidad`,`EstadoProyecto` from `proyecto` where idproyecto=?', array($proyectoid));
@@ -79,15 +79,40 @@ class ProjectController extends Controller
         $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
         foreach($proyectoEvaluacion as $evaluation){
-            $evaluation->count = app('App\Http\Controllers\EvaluationItemController')->getUsersMatriz($evaluation->idevaluacion);
+            $evaluation->count_matriz = app('App\Http\Controllers\EvaluationItemController')->getUsersMatriz($evaluation->idevaluacion);
+            $evaluation->count_evaluation = app('App\Http\Controllers\EvaluationItemController')->getUsersEvaluation($evaluation->idevaluacion);
+            $evaluation->permiss_m = false;
+            if($session_user->status != 0){
+              foreach ($evaluation->count_matriz as $c) {
+                if($session_user->code == $c->user){
+                  $evaluation->permiss_m = true;
+                  break;
+                }
+              }
+            }
+            // validacion de evaluaciones incompletas
+            if(count($evaluation->count_matriz) < 3 || count($evaluation->count_evaluation) < 3){
+              $evaluation_done = false;
+            }
         }
         //dd($proyectoEvaluacion);
-        /**Permisos sobre le proyecto */
         if($session_user->status != 0){
+            // permisos sobre le proyecto
             $users_project = DB::select('SELECT count(*) as permiss FROM usuario_has_proyecto where protecto_idprotecto=? and usuario_codigo=?', array($proyectoid, $session_user->code));
             $permiss_edit = $users_project[0]->permiss;
         }
-        return view('proyecto-detalle')->with('session', $session_user)->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion)->with('permiss_edit', $permiss_edit);
+        return view('proyecto-detalle')->with('session', $session_user)->with('proyecto', $proyecto)->with('proyectoAnexo', $proyectoAnexo)->with('proyectoEvaluacion', $proyectoEvaluacion)->with('permiss_edit', $permiss_edit)
+        ->with('evaluation_done', $evaluation_done);
+    }
+    // detalle de las evaluaciones
+    public function show($id)
+    {
+        $result = DB::select("select usuario_codigo,
+        (select concat(nombres, ' ', apellidos) from usuario where codigo=m.usuario_codigo) as name,
+        max(actualizacion) as act_matriz,
+        (select max(actualizacion) from calificacion where evaluacion_idevaluacion=max(m.evaluacion_idevaluacion) and usuario_codigo=m.usuario_codigo) as act_eval
+         from matriz m where m.evaluacion_idevaluacion=? group by usuario_codigo", array($id));
+        return response()->json($result);
     }
 
     /**

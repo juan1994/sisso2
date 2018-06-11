@@ -56,4 +56,5 @@ Route::resource('user-code', 'UserController',
                 ['only' => ['show']]);
 Route::resource('report/qualities', 'ReportController',
                 ['only' => ['index']]);
-
+Route::resource('evaluation-info', 'ProjectController',
+                ['only' => ['show']]);

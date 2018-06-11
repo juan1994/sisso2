@@ -159,10 +159,10 @@
                 @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
                 <td>
                     <div class="btn-group">
-                    <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                    <button class="btn btn-default" {{count($row->count_matriz) >= 3 ? 'disabled':''}} onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Matriz</button>
-                        <button class="btn btn-default" {{count($row->count) < 3 ?'disabled':''}} onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
-                            Agregar Calificación {{count($row->count)}}</button>
+                        <button class="btn btn-default" {{(count($row->count_matriz) < 3 || !$row->permiss_m || count($row->count_evaluation) >= 3) ?'disabled':''}} onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                            Agregar Calificación</button>
                     </div>
                 </td>
                 @endif
@@ -172,12 +172,45 @@
     </table>
 @if(isset($session->status) && $session->status === 1 && intval($session->rol) == intval(2))
 <form method="POST" action"/detail-project">
-    {{ csrf_field() }}
+    @if($evaluation_done){{ csrf_field() }}@endif
     <input type="hidden" name="idproject" value="{{$proyecto[0]->idproyecto}}"/>
     <input type="hidden" name="operation" value="A"/>
-    <button class="btn btn-success" type="submit" method="POST"><i class="fa fa-user-plus"></i>Agregar Evaluación</button>
+    <button class="btn btn-success" {{!$evaluation_done ? 'disabled':''}} type="{{$evaluation_done ?'submit':'button'}}"><i class="fa fa-user-plus"></i>Agregar Evaluación</button>
 </form>
 @endif
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalle Evaluación</h5>
+      </div>
+      <div class="modal-body">
+        {{ csrf_field() }}
+        <table class="table">
+          <thead style="width: 100px;">
+              <tr>
+              <th scope="col">Criterio</th>
+              <th scope="col">Peso Indicador</th>
+              <th scope="col">Valor</th>
+              </tr>
+          </thead>
+          <tbody style="width: 50px;">
+              <tr>
+                <th scope="row">Eficacia</th>
+                <td></td>
+                <td></td>
+              </tr>
+          </tbody
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="$('#exampleModal').modal('dismiss')" type="button">
+            Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   function showForm(){
     $('#addfile').removeClass('d-none');
@@ -186,7 +219,7 @@
     $('#addfile').addClass('d-none');
   }
 window.onload = function() {
-  //$('#addfile').removeClass('d-none');
+    //$('#exampleModal').modal('show')
 };
 </script>
 @stop

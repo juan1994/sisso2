@@ -31,7 +31,7 @@
                         @endforeach
                     @endif
                 </select>
-                </div>  
+                </div>
             </td>
             </tr>
             <tr>

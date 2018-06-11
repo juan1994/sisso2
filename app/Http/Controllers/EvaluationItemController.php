@@ -128,8 +128,9 @@ class EvaluationItemController extends Controller
             ->update(['valor' => Input::get('valor7', 0), 'actualizacion' => $date_string]);
         }
         // calculo del resultado
-        $exist = self::getCountMatriz($idproject);
-        if($exist >= 3){
+        $exist = self::getUsersMatriz($idproject);
+        $exist_eval = self::getUsersEvaluation($idproject);
+        if(count($exist) >= 3 && count($exist_eval) >= 3){
             self::calculateValue($idproject);
         }
         return redirect()->route('detalle-proyecto', ['proyectoid' => $numproject]);
@@ -137,6 +138,10 @@ class EvaluationItemController extends Controller
         ->with('operation', 'I')->with('calificaciones', self::getCalificaciones())
         ->with('values', array())->with('status', 0)
         ->with('weight', array())->with('idproject', $idproject)->with('numproject', $numproject);*/
+    }
+    public function getUsersEvaluation($idevaluation){
+      $result   = DB::select('select distinct usuario_codigo as user from calificacion where evaluacion_idevaluacion=?', array($idevaluation));
+      return $result;
     }
     public function getUsersMatriz($idproject){
         $results = DB::select('select distinct usuario_codigo as user from matriz where evaluacion_idevaluacion=?', array($idproject));
