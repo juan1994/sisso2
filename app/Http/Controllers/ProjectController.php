@@ -56,7 +56,7 @@ class ProjectController extends Controller
             ->where('idproyecto', $input["idproject"])
             ->update([
             'nombreProyecto' => $input["NombreProyecto"],
-            'fechaInicio' => $input["FechaInicio"], 
+            'fechaInicio' => $input["FechaInicio"],
             'fechaFinalizacion' => $input["FechaFinalizacion"],
             'presuesto' => $input["Presupuesto"],
             'problacionBeneficiada' => $input["PoblacionBeneficiada"],
@@ -78,7 +78,10 @@ class ProjectController extends Controller
         $proyectoAnexo = DB::select('select `idAnexo`,`NombreAnexo`,`Descripcion`, `Ruta` FROM `anexo` where `proyecto_idprotecto`=?', array($proyectoid));
         $proyectoEvaluacion = DB::select('select  idevaluacion,
                 `resultado`, `fecha`, `actualizacion`FROM `evaluacion` where `proyecto_idproyecto`=?', array($proyectoid));
-        $result = app('App\Http\Controllers\EvaluationItemController')->getCountMatriz($proyectoid);
+        foreach($proyectoEvaluacion as $evaluation){
+            $evaluation->count = app('App\Http\Controllers\EvaluationItemController')->getUsersMatriz($evaluation->idevaluacion);
+        }
+        //dd($proyectoEvaluacion);
         /**Permisos sobre le proyecto */
         if($session_user->status != 0){
             $users_project = DB::select('SELECT count(*) as permiss FROM usuario_has_proyecto where protecto_idprotecto=? and usuario_codigo=?', array($proyectoid, $session_user->code));
@@ -105,13 +108,13 @@ class ProjectController extends Controller
         $date_string = date("Y/m/d h:i");
         // pasar datos a estructura
         $data = request()->all();
-        //guardar datos    
+        //guardar datos
         if($session_user->status != 0){
             DB::transaction(function()
             use ($data, $date_string, $session_user){
                 $idProject = DB::table('proyecto')->insertGetId(
-                    ['nombreProyecto' => $data['NombreProyecto'], 'fechaRegistro' => $date_string, 
-                    'fechaInicio' => $data['FechaInicio'], 'fechaFinalizacion' => $data['FechaFinalizacion'], 'presuesto' => $data['Presupuesto'], 
+                    ['nombreProyecto' => $data['NombreProyecto'], 'fechaRegistro' => $date_string,
+                    'fechaInicio' => $data['FechaInicio'], 'fechaFinalizacion' => $data['FechaFinalizacion'], 'presuesto' => $data['Presupuesto'],
                     'problacionBeneficiada' => $data['PoblacionBeneficiada'], 'nombreResponsable' => $data['NombreResponsable'],
                     'descripcion' => $data['BreveDescripcion'],'objetivoGeneral' => $data['ObjetivoGeneral'],
                     'tipoModalidad_idtipoModalidad' => $data['TipoModalidad'],'EstadoProyecto' => 0 ]);
@@ -131,12 +134,12 @@ class ProjectController extends Controller
             return view('proyecto-registrar')->with('session', $session_user);
         }
     }
-  
+
     private function createEvaluation(Request $request){
         $idproject      = Input::get('idproject', '');
         $date_string    = date("Y/m/d h:i");
         DB::table('evaluacion')->insert(
-            ['resultado' => 0, 'proyecto_idproyecto' => $idproject, 
+            ['resultado' => 0, 'proyecto_idproyecto' => $idproject,
             'fecha' => $date_string, 'actualizacion' => $date_string]);
         return Redirect::action('ProjectController@getDetailProject', array('proyectoid' => $idproject));
     }
@@ -155,7 +158,7 @@ class ProjectController extends Controller
         } else {
             $session_user = $this->session->getSession();
             return view('notfoundfile')->with('session', $session_user);
-        }    
+        }
     }
       /**
      * Operación sobre el proyecto
@@ -187,7 +190,7 @@ class ProjectController extends Controller
             }
         }elseif($operation == 'A'){
             DB::table('evaluacion')->insert(
-                ['resultado' => 0, 'proyecto_idproyecto' => $idproject, 
+                ['resultado' => 0, 'proyecto_idproyecto' => $idproject,
                 'fecha' => $date_string, 'actualizacion' => $date_string]);
         }elseif($operation == 'D'){
             DB::table('anexo')->where('idAnexo', Input::get('idanexo', 0))->delete();

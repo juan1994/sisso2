@@ -1,12 +1,9 @@
 @extends('layout-default')
 @section('content')
-<a href="{{ route('proyecto') }}">
-                    <button class="btn btn-warning" type="button">
-                        <i class="fas fa-arrow-circle-left"></i>
-                        Cancelar
-                    </button>
-                    </a>
-<div class="table-responsive">  
+<div>
+    <button class="btn btn-link" onclick="window.location.href = '/projects' " type="button">Volver</button>
+</div>
+<div class="table-responsive">
  <table class="table table-striped table-white">
 	<thead>
   	<h1>Datos generales</h1>
@@ -23,7 +20,7 @@
       <th scope="col">Tipo de modalidad</th>
       <th scope="col">Estado Del Proyecto</th>
 
-      
+
     </tr>
   </thead>
   <tbody>
@@ -38,15 +35,15 @@
       <td> @php echo $row->nombreResponsable; @endphp </td>
       <td> @php echo $row->descripcion; @endphp </td>
       <td> @php echo $row->objetivoGeneral; @endphp </td>
-      
-      <td> 
+
+      <td>
         @if ($row->tipoModalidad_idtipoModalidad ===  1)
           Trabajo de grado
         @elseif ($row->tipoModalidad_idtipoModalidad === 2)
             Informatica Social
         @endif
       </td>
-      <td> 
+      <td>
         @if ($row->EstadoProyecto ===  '0')
           Activo
         @elseif ($row->EstadoProyecto === '1')
@@ -128,7 +125,7 @@
                 <button type="submit">Agregar</button>
             </div>
         </form>
-    </div>    
+    </div>
     <table class="table table-striped table-white">
         <thead>
             <h1>
@@ -164,8 +161,8 @@
                     <div class="btn-group">
                     <button class="btn btn-default" onclick="window.location.href = '/evaluations?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
                             Agregar Matriz</button>
-                        <button class="btn btn-default" onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
-                            Agregar Calificación</button>
+                        <button class="btn btn-default" {{count($row->count) < 3 ?'disabled':''}} onclick="window.location.href = '/evaluation-cal?idproject={{$proyecto[0]->idproyecto}}&project={{$row->idevaluacion}}'; " type="button">
+                            Agregar Calificación {{count($row->count)}}</button>
                     </div>
                 </td>
                 @endif
@@ -193,4 +190,3 @@ window.onload = function() {
 };
 </script>
 @stop
-

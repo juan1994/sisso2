@@ -34,7 +34,7 @@ class EvaluationItemController extends Controller
     public function get(Request $request)
     {
         $session_user = $this->session->getSession();
-        //$data = $request->session()->all();   
+        //$data = $request->session()->all();
         //var_dump($data);
         $operation = 'I';
         $status = 1;
@@ -57,7 +57,7 @@ class EvaluationItemController extends Controller
                 $operation = 'U';
             }
         }
-        
+
         return view('evaluacion-reg-calificacion')->with('session', $this->session->getSession())
         ->with('operation', $operation)->with('calificaciones', self::getCalificaciones())
         ->with('values', $results)->with('status', $status)
@@ -75,19 +75,19 @@ class EvaluationItemController extends Controller
         //guardar evaluación
         if($operation == 'I'){
             DB::table('calificacion')->insert([
-                ['valor' => Input::get('valor1', 0), 'atributoCalidad_idatributoCalidad' => 1, 
+                ['valor' => Input::get('valor1', 0), 'atributoCalidad_idatributoCalidad' => 1,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor2', 0), 'atributoCalidad_idatributoCalidad' => 2, 
+                ['valor' => Input::get('valor2', 0), 'atributoCalidad_idatributoCalidad' => 2,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor3', 0), 'atributoCalidad_idatributoCalidad' => 3, 
+                ['valor' => Input::get('valor3', 0), 'atributoCalidad_idatributoCalidad' => 3,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor4', 0), 'atributoCalidad_idatributoCalidad' => 4, 
+                ['valor' => Input::get('valor4', 0), 'atributoCalidad_idatributoCalidad' => 4,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor5', 0), 'atributoCalidad_idatributoCalidad' => 5, 
+                ['valor' => Input::get('valor5', 0), 'atributoCalidad_idatributoCalidad' => 5,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor6', 0), 'atributoCalidad_idatributoCalidad' => 6, 
+                ['valor' => Input::get('valor6', 0), 'atributoCalidad_idatributoCalidad' => 6,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string],
-                ['valor' => Input::get('valor7', 0), 'atributoCalidad_idatributoCalidad' => 7, 
+                ['valor' => Input::get('valor7', 0), 'atributoCalidad_idatributoCalidad' => 7,
                 'usuario_codigo' => $username, 'evaluacion_idevaluacion' => $idproject, 'fecha' => $date_string, 'actualizacion' => $date_string]
             ]);
         }elseif($operation == 'U'){
@@ -138,8 +138,12 @@ class EvaluationItemController extends Controller
         ->with('values', array())->with('status', 0)
         ->with('weight', array())->with('idproject', $idproject)->with('numproject', $numproject);*/
     }
+    public function getUsersMatriz($idproject){
+        $results = DB::select('select distinct usuario_codigo as user from matriz where evaluacion_idevaluacion=?', array($idproject));
+        return $results;
+    }
     public function getCountMatriz($idproject){
-        $results = DB::select('select IFNULL(count(distinct usuario_codigo),0) num from matriz where evaluacion_idevaluacion=?;', array($idproject));
+        $results = DB::select('select IFNULL(count(distinct usuario_codigo),0) num from matriz where evaluacion_idevaluacion=?', array($idproject));
         return $results[0]->num;
     }
     private function getAverage($idproject, $username ){
